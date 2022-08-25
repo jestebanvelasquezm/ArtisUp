@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id        String       @id @default(uuid())
+  available Boolean @default(true)
+  image     String
+  userName  String
+  lastName  String
+  email     String       @unique
+  password  String
+  phone     Int
+  city      String
+  country   String
+  rol       UserRole
+  shows     ShowArtist[]
+}
+
+model Show {
+  id          String          @id @default(uuid())
+  available   Boolean         @default(true)
+  nickName    String          @unique
+  eventName   String
+  description String
+  imagesEvent String[]
+  duration    Int
+  isActive    Boolean         @default(true)
+  priceTime   Int
+  priceDay    Int
+  members     ShowArtist[]
+  categories  Category_Show[]
+  // CalificationService CalificationService[] //calificaciones de los servicios!
+}
+
+model ShowArtist {
+  showId String
+  show   Show   @relation(fields: [showId], references: [id])
+  userId String
+  user   Users  @relation(fields: [userId], references: [id])
+
+  @@id([showId, userId])
+}
+
+model Category {
+  id        Int             @unique @default(autoincrement())
+  name      String
+  asignedBy String
+  shows     Category_Show[]
+}
+
+//relacion entre usuario-Artista y show:
+model Category_Show {
+  showId     String
+  show       Show     @relation(fields: [showId], references: [id])
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  assignedAt DateTime @default(now())
+
+  @@id([showId, categoryId]) //codificando la clave de la relacion
+}
+
+enum UserRole {
+  CONTRACTOR
+  ARTIST
+  ADMIN
+}
+
+// model Token {
+//   id
+// }
+
+///////////////////////// Pruebas /////////////////////////////////////
+// model AppArtsist {
+//   createdAt DateTime @default(now())
+//   role      UserRole
+//   userId String
+//   showId String
+//   @@id([userId, showId, role])
+// }
+
+// model CalificationService {
+//   id        Int      @unique @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   comments  String
+//   score     Int // para presentarlo como un porcentaje result * 10^-1 = ...5%
+
+//   //relacion al show
+//   showId String
+//   show   Show   @relation(fields: [showId], references: [id])
+// }

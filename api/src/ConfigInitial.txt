@@ -1,0 +1,10 @@
+instalar:
+-- npm i typescript ts-node ts-node-dev @types/node @types/express prisma prisma/client dotenv express nodemon  
+
+//para ejecutar: 
+npx tsc init
+npx prisma init
+npx prisma migrate dev --name init : crear las migraciones a la base de datos
+
+npm run tsc
+npx prisma generate
