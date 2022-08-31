@@ -9,7 +9,7 @@ export default function Header() {
         <div className="flex h-screen flex-col">
                 <div className="flex flex-row h-full items-center w-full">
                     <div className="w-1/2 flex flex-row items-center justify-center">
-                        <h1>Header component</h1>
+                        {/* <h1>Vive La Mejor Experiencia</h1> */}
                         <img src={auriculares} className="w-2/3 animate-[floating_3s_ease-in-out_infinite] -z-10" alt="" />
                     </div>
                     <div className="w-1/2 px-7">

@@ -24,11 +24,23 @@ const userController = {
             include:{
                 shows:{
                     select:{
-                        show:true
+                        show:{
+                            include:{
+                                categories:{
+                                    select:{
+                                        category:true
+                                    }
+                                }
+                            }
+                        }
+                        
                     }
                 }
+                
 
-            }
+            },
+            
+
         })
         try {
             if(!user){

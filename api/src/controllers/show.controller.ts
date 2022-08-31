@@ -59,12 +59,24 @@ const showController = {
                 where: {
                     id
                 },
+                // include:{
+                //     categories:true,
+                //     members:true,
+                // }
                 include:{
-                    categories:true,
-                    members:true,
+                    categories:{
+                        select:{
+                            category:true
+                        }
+                    },
+                    members:{
+                        select:{
+                            user:true
+                        }
+                    }
                 }
             });
-            res.status(200).json([show]);
+            res.status(200).json({succes:true, data:show});
         } catch (error) {
             res.status(400).send(error)
         }
