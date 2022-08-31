@@ -26,15 +26,15 @@ export default function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/artists' element={<AllShows />} />
-        <Route path='/shows/detail/:id' element={<ShowDetail />} />
-        <Route path='/categories' element={<Categories />} />
-        <Route path='/con' element={<Slice />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/createartist' element={<FormShow />} />
-        <Route path='/AdminPanel' element={<AdminPanel />} />
-        <Route path='/contract' element={<Pagos />} />
-        <Route path='/dash' element={<DasBoard />} />
+        <Route path='/artists/detail/:id' element={<ShowDetail />} />
+        {/* <Route path='/categories' element={<Categories />} /> */}
+        {/* <Route path='/con' element={<Slice />} /> */}
+        {/* <Route path='/login' element={<Login />} /> */}
+        {/* <Route path='/register' element={<Register />} /> */}
+        {/* <Route path='/createartist' element={<FormShow />} /> */}
+        {/* <Route path='/AdminPanel' element={<AdminPanel />} /> */}
+        {/* <Route path='/contract' element={<Pagos />} /> */}
+        {/* <Route path='/dash' element={<DasBoard />} /> */}
 
         
       </Routes>
