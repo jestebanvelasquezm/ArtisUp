@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
-import { Response, Request, } from 'express';
+import { Response, Request,  NextFunction } from 'express';
 import Jwt from 'jsonwebtoken';
 import bcryp from 'bcrypt'
 
@@ -169,7 +169,7 @@ export const signIn = async (req: Request, res: Response) => {
 
 
 
-export const soloAdmin = async (req: Request, res: Response) => {
+export const soloAdmin = async (req: Request, res: Response ,next:NextFunction) => {
     
     try {
     
@@ -182,7 +182,7 @@ export const soloAdmin = async (req: Request, res: Response) => {
             
              res.status(201).json({ message: 'error token : no hay usuarios ' })//borrado logico*
         }
-        if(admin.rol === 'ADMIN') return res.send(true)
+        if(admin.rol === 'ADMIN') return next()
         else{
             return res.send(false)
         }
