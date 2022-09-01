@@ -2,8 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 export default function EventsArtist({events}) {
-  console.log(events.map(el => el.show.categories.map(el => el.category.name) ));
-  return (
+
+
+    return (
     // <div>Eventos</div>
     <div className='m-4 space-y-10'  >
       <div className='space-y-10'>
@@ -14,6 +15,7 @@ export default function EventsArtist({events}) {
         events  ? <>
             <div className="flex flex-row  flex-wrap  ">
                 {events.map((event) => {
+                    
                     return (
                         <div key={event.id} className="flex flex-row flex-wrap w-1/2  ">
                             <div className="flex flex-col items-center w-full m-9 bg-white rounded-md shadow-md duration-300 hover:scale-105 hover:shadow-xl">
@@ -57,7 +59,7 @@ export default function EventsArtist({events}) {
                                     </div>
                                     <div className="flex flex-row justify-center">
                                         {
-                                            event.show.isActive ? <Link to={`/contract/event/${event.showid}`} className="px-10 py-2 mt-3 text-sm font-medium text-white bg-blue-500 rounded-lg border border-blue-700 active:scale-95 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200">Comprar</Link> : <button className="px-10 py-2 mt-3 text-sm font-medium text-white bg-red-500 rounded-lg border border-red-700 active:scale-95 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200" disabled>Este evento no está disponible</button>
+                                            event.show.isActive ? <Link to={`/artists/contract/event/${event.show.id}`} className="px-10 py-2 mt-3 text-sm font-medium text-white bg-blue-500 rounded-lg border border-blue-700 active:scale-95 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200">Comprar</Link> : <button className="px-10 py-2 mt-3 text-sm font-medium text-white bg-red-500 rounded-lg border border-red-700 active:scale-95 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200" disabled>Este evento no está disponible</button>
                                         }
                                     </div>
                                 </div>
