@@ -24,7 +24,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="w-full py-1 px-5 bg-white flex items-center fixed top-0 right-0 left-0 shadow lg:flex-row lg:flex-nowrap lg:justify-start z-50">
+            <div className="w-full bg-slate-100 py-1 px-5  flex items-center fixed top-0 right-0 left-0 shadow lg:flex-row lg:flex-nowrap lg:justify-start z-50">
                 <div className="w-full py-3 mx-auto flex items-center justify-between lg:flex-nowrap xl:max-w-screen-xl">
                     <Link to="/">
                         <p className="text-2xl text-gray-900 font-extrabold inline-block py-1.5 mr-4 leading-none whitespace-nowrap tracking-widest">Artist App</p>
@@ -40,22 +40,22 @@ export default function Navbar() {
                                 </NavLink>
                             </li>
 
-                            <li className="mr-8">
+                            {/* <li className="mr-8">
                                 <NavLink to="/categories" style={navLinkStyles} className="flex items-center text-gray-900 text-lg py-1.5 px-4 rounded-3xl transition-all duration-75 ease-linear delay-75 hover:bg-gray-400 hover:bg-opacity-20">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                                     </svg> Categorías
                                 </NavLink>
-                            </li>
+                            </li> */}
 
-                            <li className="mr-8">
+                            {/* <li className="mr-8">
                                 <NavLink to="/contract" style={navLinkStyles} className="flex items-center text-gray-900 text-lg py-1.5 px-4 rounded-3xl transition-all duration-75 ease-linear delay-75 hover:bg-gray-400 hover:bg-opacity-20">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                     </svg>
                                     Contratar
                                 </NavLink>
-                            </li>
+                            </li> */}
 
                             <li className="mr-4">
                                 {token ?

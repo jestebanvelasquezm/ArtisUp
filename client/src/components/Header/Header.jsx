@@ -6,7 +6,7 @@ import logo from '../../assets/logo.jpeg'
 export default function Header() {
   return (
     <header> 
-        <div className="flex h-screen flex-col">
+        <div className=" bg-slate-200 flex h-screen flex-col">
                 <div className="flex flex-row h-full items-center w-full">
                     <div className="w-1/2 rounded flex flex-row items-center justify-center">
                         {/* <h1>Vive La Mejor Experiencia</h1> */}
