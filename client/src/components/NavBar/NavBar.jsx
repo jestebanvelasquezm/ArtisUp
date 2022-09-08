@@ -7,7 +7,8 @@ export default function Navbar() {
     const navigate = useNavigate()
 
     const token = localStorage.getItem('auth-token')
-    console.log(token)
+    const user = JSON.parse(token)
+    // console.log(token)
 
     const logOut = ()=>{
         localStorage.clear()
@@ -41,14 +42,19 @@ export default function Navbar() {
                             </li>
 
                             {/* <li className="mr-8">
+                            {
+                                user.data.rol && user.data.rol === 'ARTIST' ?
                                 <NavLink to="/categories" style={navLinkStyles} className="flex items-center text-gray-900 text-lg py-1.5 px-4 rounded-3xl transition-all duration-75 ease-linear delay-75 hover:bg-gray-400 hover:bg-opacity-20">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                    </svg> Categorías
+                                    </svg> Users
                                 </NavLink>
+                                : ''
+                            }
                             </li> */}
 
                             {/* <li className="mr-8">
+                            {}
                                 <NavLink to="/contract" style={navLinkStyles} className="flex items-center text-gray-900 text-lg py-1.5 px-4 rounded-3xl transition-all duration-75 ease-linear delay-75 hover:bg-gray-400 hover:bg-opacity-20">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -56,6 +62,18 @@ export default function Navbar() {
                                     Contratar
                                 </NavLink>
                             </li> */}
+                            <li className="mr-4">
+                                {token ?
+                                <NavLink to='/profile' style={navLinkStyles} className="flex items-center text-gray-900 text-lg py-1.5 px-4 rounded-3xl transition-all duration-75 ease-linear delay-75 hover:bg-gray-400 hover:bg-opacity-20">
+                                    {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"> */}
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    {/* </svg> */}
+                                    Profile
+                                </NavLink>
+                                    :
+                                    null
+                                }               
+                            </li>
 
                             <li className="mr-4">
                                 {token ?
@@ -67,6 +85,7 @@ export default function Navbar() {
                                     </svg>
                                     Ingresar
                                 </NavLink>
+                                
                                 }               
                             </li>
 
