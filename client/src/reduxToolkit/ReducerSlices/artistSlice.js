@@ -3,6 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 export const artistSlice = createSlice({
     name: "artistsPrincipal",
     initialState:{
+        profile:{},
+        name:[],
         artists:[],
         detail:{},
         artistByName: []
@@ -16,10 +18,16 @@ export const artistSlice = createSlice({
         },
         getByName: (state, action) =>{
             state.detail = action.payload
+        },
+        getProfile: (state, action) =>{
+            state.profile = action.payload
+        },
+        getName: (state, action) =>{
+            state.name = action.payload
         }
     }
 })
 
-export const {getArtists, getArtistsId, getByName} = artistSlice.actions
+export const {getArtists, getArtistsId, getByName, getProfile, getName} = artistSlice.actions
 
 export default artistSlice.reducer

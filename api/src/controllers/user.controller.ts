@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PrismaClient } from '@prisma/client';
 import { Response, Request } from 'express';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
@@ -18,13 +19,13 @@ const userController = {
         }
     },
     getUserId: async (req: Request, res: Response) =>{
-        const {id} = req.params
+        try {
         const user = await prisma.users.findUnique({
-            where:{id: id},
+            where:{id: req.user_id},
             include:{
-                shows:{
+                event:{
                     select:{
-                        show:{
+                        event:{
                             include:{
                                 categories:{
                                     select:{
@@ -36,13 +37,9 @@ const userController = {
                         
                     }
                 }
-                
-
             },
             
-
         })
-        try {
             if(!user){
                 res.status(400).json({succes:false, message:'no existe usuario con esa id'})
             }else{
@@ -54,15 +51,12 @@ const userController = {
 
     },
     avaliableUser: async (req: Request, res: Response) =>{
-        const {id} = req.params
         const {boolean} = req.body
-        // const user = await prisma.users.findUnique({where: {id}})
         try {
             const user = await prisma.users.update({
-                where: { id: id },
+                where: { id: req.user_id },
                 data: { available: boolean }
                 })
-
                 res.status(200).json({data:user})
         } catch (error) {
             res.status(400).json({data:error})
