@@ -1,16 +1,30 @@
 import React from 'react'
 import Navbar from '../NavBar/NavBar'
 import {Link} from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfileArtist } from '../../reduxToolkit/Actions/artistAction';
 
 export default function ProfileArtist() {
+    const dispatch = useDispatch()
 
-    const token = window.localStorage.getItem('auth-token' )
+    const profile = useSelector(state => state.artistsPrincipal.profile)
+
+    useEffect(()=>{
+        dispatch(getProfileArtist())
+    },[])
+
+
+    console.log(profile);
+    const token = window.localStorage.getItem('User' )
     const detailArtist = JSON.parse(token)
+    // const statedoctor = useSelector(state=> state.doctor.profile)
+    
 
-    console.log(detailArtist);
+    // console.log(detailArtist);
 
   return (
-    <div className="flex justify-center text-center my-20 h-auto bg-slate-300">
+      <div className="flex  justify-center text-center my-20 h-auto bg-slate-300">
             <Navbar />
 
             {(detailArtist ) ? <div  className="container flex flex-col items-center w-full h-screen " >
@@ -58,3 +72,4 @@ export default function ProfileArtist() {
         </div>
   )
 }
+// setTimeout( rol === 'ADMIN'? navigate("/admin/doctors", 1000) : rol === 'DOCTOR'? navigate("/admin/doctors", 1000) : rol === 'PATIENT'? navigate("/patient/doctors", 1000) :  navigate("/doctors", 1000));

@@ -4,6 +4,7 @@ import {Link, useNavigate} from 'react-router-dom'
 import Navbar from '../NavBar/NavBar'
 import axios from 'axios'
 import Modal from '../Modal/Modal'
+import { useAuthContext } from '../../auth/context/authContext'
 
 const Validate = (input) => {
     let errors = {};
@@ -15,7 +16,8 @@ const Validate = (input) => {
 }
 
 export default function Login() {
-    const navigate = useNavigate()
+    const {login} = useAuthContext()
+    // const navigate = useNavigate()
 
     const [input, setInput] = useState({
         email:'',
@@ -44,12 +46,16 @@ export default function Login() {
                 method:'POST',
                 data:input
             })
-            window.localStorage.setItem('auth-token', JSON.stringify( response.data));
-            if(response.data.rol === 'ARTIST') return navigate('/profile')
+            window.localStorage.setItem('auth-token', JSON.stringify( response.data.token));
+            window.localStorage.setItem('User', JSON.stringify( response.data));
+            window.sessionStorage.setItem('Rol', JSON.stringify(response.data.rol))
+            window.sessionStorage.setItem('isAuth', true)
+
             setInput({
                 email:'',
                 password:''
             })
+            login()
         } catch (error) {
             console.log(error);
         }

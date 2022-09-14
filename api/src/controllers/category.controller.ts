@@ -35,19 +35,18 @@ const categoryController = {
                 })
             }
         } catch (error) {
-            return error
+            res.status(400).json({message:error})
         }
     },
     createCategory: async (req: Request, res: Response)=>{
         const {name} = req.body
-        const category = await prisma.category.findMany({
-            where:{
-                name: name
-            }
-        })
-        
-            try {
-                if(category){
+        try {
+            const category = await prisma.category.findMany({
+                where:{
+                    name: name
+                }
+            })
+            if(category){
                 res.status(400).json({succes:false, message: 'ya existe la categoria'})
 
                 }else{
@@ -65,25 +64,31 @@ const categoryController = {
             }
     },
     getCategories: async (_req: Request, res: Response) => {
-        const categories = await prisma.category.findMany()
-        res.status(200).json({ data: categories.sort() });
+        try {
+            const categories = await prisma.category.findMany()
+            res.status(200).json({ data: categories.sort() });
+        } catch (error) {
+            res.status(400).json({message:error})
+        }
     },
     getCategoryId: async (req: Request, res: Response) => {
-        const {id} = req.params
-        console.log(id);
-        const category = await prisma.category.findUnique({
-            where:{
-                id:parseInt(id)
-            },
-            include:{
-                shows:{
-                    select:{
-                        show:true
+        try {
+            const category = await prisma.category.findUnique({
+                where:{
+                    id:parseInt(id)
+                },
+                include:{
+                    event:{
+                        select:{
+                            show:true
+                        }
                     }
                 }
-            }
-        })
-        res.status(200).json({succes:true, data:category})
+            })
+            res.status(200).json({succes:true, data:category})
+        } catch (error) {
+            res.status(400).json({message:error})
+        }
     }
 }
 

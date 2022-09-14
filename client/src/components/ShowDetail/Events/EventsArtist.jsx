@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { ARTIST_EVENT_TICKETS, USER_EVENT_TICKETS,  } from '../../../auth/components/config/routes/paths';
 
 export default function EventsArtist({events}) {
 
+    const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
 
     return (
     // <div>Eventos</div>
@@ -59,7 +61,7 @@ export default function EventsArtist({events}) {
                                     </div>
                                     <div className="flex flex-row justify-center">
                                         {
-                                            event.show.isActive ? <Link to={`/artists/contract/event/${event.show.id}`} className="px-10 py-2 mt-3 text-sm font-medium text-white bg-blue-500 rounded-lg border border-blue-700 active:scale-95 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200">Comprar</Link> : <button className="px-10 py-2 mt-3 text-sm font-medium text-white bg-red-500 rounded-lg border border-red-700 active:scale-95 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200" disabled>Este evento no está disponible</button>
+                                            event.show.isActive ? <Link to={ rol === 'ADMIN'? '/' : rol === 'ARTIST'? ARTIST_EVENT_TICKETS : rol === 'USER'?  USER_EVENT_TICKETS : '/login' } className="px-10 py-2 mt-3 text-sm font-medium text-white bg-blue-500 rounded-lg border border-blue-700 active:scale-95 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200">Comprar</Link> : <button className="px-10 py-2 mt-3 text-sm font-medium text-white bg-red-500 rounded-lg border border-red-700 active:scale-95 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200" disabled>Este evento no está disponible</button>
                                         }
                                     </div>
                                 </div>

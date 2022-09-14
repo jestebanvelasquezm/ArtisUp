@@ -11,65 +11,81 @@ datasource db {
 }
 
 model Users {
-  id        String       @id @default(uuid())
-  available Boolean @default(true)
-  image     String
-  userName  String
-  lastName  String
-  email     String       @unique
-  password  String
-  phone     Int
-  city      String
-  country   String
-  rol       UserRole
-  shows     ShowArtist[]
+  id             String           @id @default(uuid())
+  available      Boolean          @default(true)
+  image          String
+  nickName       String
+  userName       String           @unique
+  lastName       String
+  email          String           @unique
+  password       String
+  verify         Boolean          @default(false)
+  phone          Int
+  city           String
+  country        String
+  rol            UserRole
+  shows          EventArtist[]
+  Favorites_User Favorites_User[]
 }
 
-model Show {
-  id          String          @id @default(uuid())
-  available   Boolean         @default(true)
-  nickName    String          @unique
-  eventName   String
-  description String
-  imagesEvent String[]
-  duration    Int
-  isActive    Boolean         @default(true)
-  priceTime   Int
-  priceDay    Int
-  members     ShowArtist[]
-  categories  Category_Show[]
+model Event {
+  id             String           @id @default(uuid())
+  available      Boolean          @default(true)
+  eventName      String           
+  description    String
+  imagesEvent    String[]
+  duration       Int
+  isActive       Boolean          @default(true)
+  day            DateTime
+  hour           DateTime
+  premiumTickets Int
+  generalTickets Int
+  boxTickets     Int
+  capacity       Int
+  favorites      Favorites_User[]
+  members        EventArtist[]
+  categories     Category_Event[]
   // CalificationService CalificationService[] //calificaciones de los servicios!
 }
 
-model ShowArtist {
-  showId String
-  show   Show   @relation(fields: [showId], references: [id])
+model EventArtist {
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
   userId String
   user   Users  @relation(fields: [userId], references: [id])
 
-  @@id([showId, userId])
+  @@id([eventId, userId])
 }
 
 model Category {
-  id        Int             @unique @default(autoincrement())
+  id        Int              @unique @default(autoincrement())
   name      String
   asignedBy String
-  shows     Category_Show[]
+  shows     Category_Event[]
 }
 
 //relacion entre usuario-Artista y show:
-model Category_Show {
-  showId     String
-  show       Show     @relation(fields: [showId], references: [id])
+model Category_Event {
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id])
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
   assignedAt DateTime @default(now())
 
-  @@id([showId, categoryId]) //codificando la clave de la relacion
+  @@id([eventId, categoryId]) //codificando la clave de la relacion
+}
+
+model Favorites_User {
+  userId  String
+  user    Users  @relation(fields: [userId], references: [id])
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  @@id([userId, eventId])
 }
 
 enum UserRole {
-  CONTRACTOR
+  USER
   ARTIST
   ADMIN
 }
