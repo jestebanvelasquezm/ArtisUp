@@ -54,7 +54,7 @@ const authController = {
     
             }
             //creando  el token para el USER:
-            if(newUser.rol === 'CONTRACTOR'){const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.TOKEN_SECRET_CONTRACTOR!)
+            if(newUser.rol === 'USER'){const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.USER!)
             return res.status(200).json({ succes: true, data: fullName, token: accessToken, rol:newUser.rol})
             // return res.header('auth-token', accessToken).json({ succes: true, data: newUser.email })
         }

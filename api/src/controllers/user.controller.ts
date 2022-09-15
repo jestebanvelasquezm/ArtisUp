@@ -19,23 +19,20 @@ const userController = {
         }
     },
     getUserId: async (req: Request, res: Response) =>{
+        console.log(req.params.id);
         try {
         const user = await prisma.users.findUnique({
-            where:{id: req.user_id},
+            where:{id: req.params.id},
             include:{
-                event:{
-                    select:{
+                shows:{
+                    include:{
                         event:{
                             include:{
-                                categories:{
-                                    select:{
-                                        category:true
-                                    }
-                                }
+                                categories:true
                             }
                         }
                         
-                    }
+                    },
                 }
             },
             

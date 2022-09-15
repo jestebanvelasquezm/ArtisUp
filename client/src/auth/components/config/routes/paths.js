@@ -18,6 +18,9 @@ export const ARTIST_HOME = '/artist/home'
 export const ARTIST_ARTISTS = '/artist/artists'
 export const ARTIST_ARTIST_ID = '/artist/:id'
 export const ARTIST_EVENT_TICKETS = '/artist/event/tickets/:id'
+export const ARTIST_CREATE_EVENT = '/artist/create'
 export const ARTIST_LOGOUT = '/artist/logout'
+
+
 
 // export const ARTIST_BUY = '/user/buy/:id'/artists/event/tickets/${event.show.id}`
