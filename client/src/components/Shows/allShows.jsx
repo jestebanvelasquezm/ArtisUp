@@ -2,7 +2,7 @@
 
 import { useEffect} from "react";
 // import { useSearchParams } from "react-router-dom";
-import {  getShows } from "../../reduxToolkit/Actions/artistAction";
+import {  getAllArtists } from "../../reduxToolkit/Actions/artistAction";
 import  {CardShows}  from "./cardShows";
 import Navbar from "../NavBar/NavBar";
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,10 +12,10 @@ import { useSelector, useDispatch } from 'react-redux';
 
 export default function AllShows() {
     const dispatch = useDispatch();
-    const shows = useSelector(state => state.artistsPrincipal.artists);
+    const artists = useSelector(state => state.artistsPrincipal.artists);
 
     useEffect(() => {
-        dispatch(getShows());
+        dispatch(getAllArtists());
     }, [dispatch]);
 
 
@@ -28,7 +28,7 @@ export default function AllShows() {
             </div> : <div><h1>no tienes permisos</h1></div>}
             </div> */}
             <div className="container" >
-                <CardShows shows={shows} />
+                <CardShows artists={artists} />
             </div>
         </>
     )

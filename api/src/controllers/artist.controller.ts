@@ -19,15 +19,14 @@ const artistController = {
         }
     },
     profile: async (req:Request, res:Response, _next:NextFunction) => {
-        const id:string = req.user_id
-        console.log(id);
+        
         try {
             const artist = await prisma.users.findUnique({
                 where:{id :req.user_id },
                 include:{
                     shows:{
-                        include:{
-                            show:true
+                        select:{
+                            event:true
                         }
                     }
                 }

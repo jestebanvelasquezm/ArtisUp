@@ -16,6 +16,8 @@ export default function ShowDetail() {
         dispatch(getUserDetail(params.id));
     }, [dispatch, params]);
 
+    const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
+
     return (
         <div className="flex justify-center text-center my-20 h-auto bg-slate-300">
             <Navbar />
@@ -24,7 +26,7 @@ export default function ShowDetail() {
                 {/* <div className="container flex flex-col items-center w-full h-screen"> */}
                     <div className="flex flex-row items-center justify-center w-full h-full ">
                         <div className="relative flex flex-row bg-gray-50 shadow-2xl rounded-lg w-4/5 p-10">
-                            <Link to='/artists' className="absolute flex items-center w-10 h-10 right-4 top-4 justify-center">
+                            <Link to= {rol === 'ADMIN'? `/admin/artists` : rol === 'ARTIST'? `/artist/artists`: rol === 'USER' ? `/user/artists` :`/artists`}  className="absolute flex items-center w-10 h-10 right-4 top-4 justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
@@ -36,17 +38,18 @@ export default function ShowDetail() {
                             </div>
                             <div className="w-1/2 flex flex-col justify-between">
                                 <div className="mb-5">
-                                    <p className="text-3xl font-extrabold">Nombre del artista</p>
-                                    <p className="text-2xl font-light">{detailUser.userName}  {detailUser.lastName} </p>
+                                    <p className="text-3xl font-extrabold text-zinc-500 capitalize">Nombre del artista</p>
+                                    <p className="text-2xl font-light text-zinc-500 capitalize">{detailUser.userName}  {detailUser.lastName} </p>
                                 </div>
-                                {/* <div className="mb-5">
-                                    <p className="text-xl font-extrabold">Descripción del artista</p>
-                                    <p>{showDetail.descripcion !== 'null' ? showDetail.descripcion : 'No hay una descripción'}</p>
-                                </div> */}
+                                <div className="mb-5">
+                                    {/* <p className="text-xl font-extrabold">Descripción del artista</p> */}
+                                        <p className="text-6xl font-extrabold text-zinc-500 capitalize">{detailUser.nickName}</p>
+                                    {/* <p>{showDetail.descripcion !== 'null' ? showDetail.descripcion : 'No hay una descripción'}</p> */}
+                                </div>
                                 <div className="mb-5 flex flex-row items-center justify-between">
                                     <div>
-                                        <p className="text-xl font-extrabold">Nacionalidad</p>
-                                        <p className="text-base font-light">{detailUser.city} - {detailUser.country}</p>
+                                        <p className="text-xl font-extrabold text-zinc-500 capitalize">Nacionalidad</p>
+                                        <p className="text-base font-light text-zinc-500 capitalize">{detailUser.city} - {detailUser.country}</p>
                                     </div>
                                     {/* <div>
                                         <button className="flex flex-row items-center justify-center px-5 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg border border-blue-700 active:scale-95 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 disabled:cursor-not-allowed transition-colors duration-200">Me interesa <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

@@ -2,7 +2,7 @@
 import { PrismaClient } from '@prisma/client';
 import { Response, Request } from 'express';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
-
+import bcrypt from 'bcrypt';
 
 const adminController = {
     getAdmins: async (_req: Request, res: Response) => {
@@ -59,23 +59,38 @@ const adminController = {
         }
     },
     registerAdmin: async (_req: Request, _res: Response) => {
-
-        const newUser = await prisma.users.create({
-            data: {
-                image: req.body.image,
-                nickName: req.body.nickName,
-                userName: req.body.userName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                password: hashedPassword,//password cifrada
-                phone: req.body.phone,
-                city: req.body.city,
-                country: req.body.country,
-                rol: req.body.rol,
+        try {
+            const user = await prisma.users.findFirst({
+                where: {
+                    email: req.body.email
+                }
+            })
+            if (user) {
+                return res.status(400).json({ succes: false, error: "User/Email Already Exists" })
             }
-        })
-        res.status(200).json({ data: newUser })
-        return newUser
+            const hashedPassword = await bcryp.hash(
+                req.body.password,
+                Number(process.env.SALT_ROUNDS)
+            )
+            const newUser = await prisma.users.create({
+                data: {
+                    image: req.body.image,
+                    nickName: req.body.nickName,
+                    userName: req.body.userName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    password: hashedPassword,//password cifrada
+                    phone: req.body.phone,
+                    city: req.body.city,
+                    country: req.body.country,
+                    rol: req.body.rol,
+                }
+            })
+            return res.status(200).json({ data: newUser })            
+        } catch (error) {
+            return res.status(400).json({ succes: false, message: error})
+        }
+
     }
 }
 

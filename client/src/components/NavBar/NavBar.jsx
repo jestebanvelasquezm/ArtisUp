@@ -25,7 +25,7 @@ export default function Navbar() {
             <div className="w-full bg-slate-100 py-1 px-5  flex items-center fixed top-0 right-0 left-0 shadow lg:flex-row lg:flex-nowrap lg:justify-start z-50">
                 <div className="w-full py-3 mx-auto flex items-center justify-between lg:flex-nowrap xl:max-w-screen-xl">
                     <Link to={rol === 'ADMIN'? "/" : rol === 'ARTIST'? "/artist/home" : rol === 'USER'? "/user/home" : "/"}>
-                        <p className="text-2xl text-gray-900 font-extrabold inline-block py-1.5 mr-4 leading-none whitespace-nowrap tracking-widest">Artist App</p>
+                        <p className="text-2xl text-gray-900 font-extrabold inline-block py-1.5 mr-4 leading-none whitespace-nowrap tracking-widest">Tikects App</p>
                     </Link>
                     <div className="flex basis-auto flex-grow items-center">
                         <ul className="flex flex-row items-center ml-auto pl-0 list-none my-0">

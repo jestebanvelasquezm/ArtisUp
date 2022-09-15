@@ -7,11 +7,16 @@ import {
     getName
 } from "../ReducerSlices/artistSlice";
 
-export const getShows = () => (dispatch) => {
-    axios
-        .get("http://localhost:4000/events")
-        .then((res) => dispatch(getArtists(res.data.data)))
-        .catch((e) => console.log(e));
+export const getAllArtists = () => async (dispatch) => {
+    try {
+        const {data} = await axios.get("http://localhost:4000/artist/all",{
+            headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`} 
+        })
+            console.log(data.data);
+            dispatch(getArtists(data.data))
+    } catch (error) {
+        console.log(error);
+    }
 };
 export const getShowByName = (name) => async (dispatch) => {
     try {
@@ -40,10 +45,10 @@ export const getShowDetail = () => async (dispatch) => {
 export const getProfileArtist = () => async (dispatch) => {
 
     try {
-        const { data } = await axios.get(`http://localhost:4000/artist/:id`,{
-            headers: { Authorization : JSON.parse(window.localStorage.getItem('auth-token'))}            
+        const { data } = await axios.get(`http://localhost:4000/artist/profile`,{
+            headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`}            
         });
-        console.log(data.data);
+        // console.log(data,'data');
         dispatch(getProfile(data.data));
     } catch (error) {
         console.log(error);

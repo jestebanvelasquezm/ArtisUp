@@ -14,10 +14,11 @@ import UserRoute from "./auth/components/router/user.router";
 import { 
     ARTISTS,ARTIST_ARTISTS, ARTIST_ARTIST_ID, HOME, LOGIN, //public
     ARTIST_PROFILE, ARTIST_HOME, ARTIST_ID,
-    USER_PROFILE, USER_ARTISTS, USER_ARTIST_ID, USER_HOME, USER_LOGOUT, ARTIST_LOGOUT, USER_EVENT_TICKETS, ARTIST_EVENT_TICKETS,
+    USER_PROFILE, USER_ARTISTS, USER_ARTIST_ID, USER_HOME, USER_LOGOUT, ARTIST_LOGOUT, USER_EVENT_TICKETS, ARTIST_EVENT_TICKETS, ARTIST_CREATE_EVENT,
 } from "./auth/components/config/routes/paths";
 import { AuthContextProvider } from "./auth/context/authContext";
 import Logout from "./auth/components/Logout";
+import Create from "./components/Profiles/Events/Create";
 
 
 
@@ -49,6 +50,7 @@ function App() {
                     <Route path={ARTIST_HOME} element={<Home />} />
                     <Route path={ARTIST_ARTISTS} element={<AllShows />} />
                     <Route path={ARTIST_ARTIST_ID} element={<ShowDetail />} />
+                    <Route path={ARTIST_CREATE_EVENT} element={<Create />} />
                     <Route path={ARTIST_EVENT_TICKETS} element={<FormBuy />} />
                     <Route path={ARTIST_LOGOUT} element={<Logout />} />
 

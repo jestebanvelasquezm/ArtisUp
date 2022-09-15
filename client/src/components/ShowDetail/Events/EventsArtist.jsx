@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { ARTIST_EVENT_TICKETS, USER_EVENT_TICKETS,  } from '../../../auth/components/config/routes/paths';
 
-export default function EventsArtist({events}) {
+export default function EventsArtist({shows}) {
 
     const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
 
@@ -14,9 +14,9 @@ export default function EventsArtist({events}) {
     <p className="text-center text-5xl font-extrabold   ">Eventos ofrecidos por el artista</p>
       </div>
     {
-        events  ? <>
+        shows  ? <>
             <div className="flex flex-row  flex-wrap  ">
-                {events.map((event) => {
+                {shows.map((event) => {
                     
                     return (
                         <div key={event.id} className="flex flex-row flex-wrap w-1/2  ">

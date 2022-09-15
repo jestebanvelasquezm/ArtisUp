@@ -19,7 +19,7 @@ const Authorization = {
                 const user = await prisma.users.findUnique({
                     id :decoded.user_id
                 })
-                user.rol === 'USER' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
+                user.rol === 'ADMIN' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
                 next()
             } catch (error) {
                 console.log(error);
@@ -39,9 +39,8 @@ const Authorization = {
             try {
                 const decoded:any =  Jwt.verify(token, process.env.TOKEN_SECRET_ARTIST! )// ! asegurar que va a llegar
                 console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
-                const user = await prisma.users.findUnique({
-                    id :decoded.user_id
-                })
+                const user = await prisma.users.findUnique({where: {id : `${decoded.user_id}`}})
+                if(!user) return res.status(400).json({succes: false, error: 'no hay usuario'})
                 user.rol === 'ARTIST' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
                 next()
             } catch (error) {
