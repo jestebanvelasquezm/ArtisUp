@@ -47,9 +47,9 @@ export default function Login() {
                 data:input
             })
             window.localStorage.setItem('auth-token', JSON.stringify( response.data.token));
-            window.localStorage.setItem('User', JSON.stringify( response.data));
-            window.sessionStorage.setItem('Rol', JSON.stringify(response.data.rol))
-            window.sessionStorage.setItem('isAuth', true)
+            window.localStorage.setItem('User', JSON.stringify( response.data.data));
+            window.localStorage.setItem('Rol', JSON.stringify(response.data.rol))
+            window.localStorage.setItem('isAuth', true)
 
             setInput({
                 email:'',
@@ -137,9 +137,6 @@ export default function Login() {
                                 <Link
                                     className="px-7 py-3 bg-slate-600 hover:bg-slate-700 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
                                     to='/signup'
-                                    // role="button"
-                                    // data-mdb-ripple="true"
-                                    // data-mdb-ripple-color="light"
                                 >
                                         Register
                                 </Link>

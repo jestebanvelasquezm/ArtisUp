@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const CardShows= ({ artists }) => {
 
-const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
+const rol = JSON.parse(window.localStorage.getItem('Rol'))
     return (
         <div className="flex flex-row flex-wrap bg-gray-100 "  style={{zIndex: '0'}}>
         {artists && artists.length > 0 ? artists.map((ele, i) => {

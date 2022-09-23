@@ -4,6 +4,7 @@ import Authorization from '../../Middlewares/Authorization'
 import userController from "../../controllers/user.controller";
 
 // router.get('/users', [Authorization.User],userController.getUsers);
+router.get('/users/profile',[Authorization.User],userController.getProfile);
 router.get('/users',userController.getUsers);
 router.get('/users/:id',userController.getUserId)
 router.patch('/users/update/:id', [Authorization.User],userController.avaliableUser);

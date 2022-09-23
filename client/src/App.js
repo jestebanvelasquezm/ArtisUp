@@ -12,13 +12,15 @@ import PublicRoute from './auth/components/router/public.route'
 import ArtistRoute from './auth/components/router/artist.route'
 import UserRoute from "./auth/components/router/user.router";
 import { 
-    ARTISTS,ARTIST_ARTISTS, ARTIST_ARTIST_ID, HOME, LOGIN, //public
+    ARTISTS,ARTIST_ARTISTS, ARTIST_ARTIST_ID, HOME, LOGIN,SIGNUP, //public
     ARTIST_PROFILE, ARTIST_HOME, ARTIST_ID,
     USER_PROFILE, USER_ARTISTS, USER_ARTIST_ID, USER_HOME, USER_LOGOUT, ARTIST_LOGOUT, USER_EVENT_TICKETS, ARTIST_EVENT_TICKETS, ARTIST_CREATE_EVENT,
 } from "./auth/components/config/routes/paths";
 import { AuthContextProvider } from "./auth/context/authContext";
 import Logout from "./auth/components/Logout";
 import Create from "./components/Profiles/Events/Create";
+import SignUp from "./components/Forms/SignUp";
+import ProfileUser from "./components/Profiles/ProfileUser";
 
 
 
@@ -34,9 +36,11 @@ function App() {
                     <Route path={ARTISTS} element={<AllShows />} />
                     <Route path={ARTIST_ID} element={<ShowDetail />} />
                     <Route path={LOGIN} element={<Login />} />
+                    <Route path={SIGNUP} element={<SignUp />} />
+
                 </Route>
                 <Route path="/user" element={<UserRoute/>}>
-                    <Route path={USER_PROFILE} element={<ProfileArtist />} />
+                    <Route path={USER_PROFILE} element={<ProfileUser />} />
                     <Route path={USER_HOME} element={<Home />} />
                     <Route path={USER_ARTISTS} element={<AllShows />} />
                     <Route path={USER_ARTIST_ID} element={<ShowDetail />} />

@@ -5,15 +5,15 @@ export const AuthContext = createContext();
 
 //funcion autenticadora:
 export function AuthContextProvider({children}){
-    const [isAuth, setAuth] = useState(window.sessionStorage.getItem('isAuth')) ?? false
+    const [isAuth, setAuth] = useState(window.localStorage.getItem('isAuth')) ?? false
 
     const login = useCallback(()=>{
-        window.sessionStorage.setItem('session', true);
+        window.localStorage.setItem('session', true);
         setAuth(true);
     },[])//no se pasan dependencias para que solo se cree una vez que se llama
 
     const logout = useCallback(()=>{
-        window.sessionStorage.clear();
+        window.localStorage.clear();
         window.localStorage.clear()
         setAuth(false)
     },[])//no se pasan dependencias para que solo se cree una vez que se llama

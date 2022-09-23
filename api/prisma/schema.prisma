@@ -16,7 +16,6 @@ model Users {
   image          String
   nickName       String
   userName       String           @unique
-  lastName       String
   email          String           @unique
   password       String
   verify         Boolean          @default(false)
@@ -28,19 +27,26 @@ model Users {
   Favorites_User Favorites_User[]
 }
 
+
 model Event {
   id             String           @id @default(uuid())
   available      Boolean          @default(true)
   eventName      String           
   description    String
-  imagesEvent    String[]
-  duration       Int
+  imagesEvent    String
   isActive       Boolean          @default(true)
-  day            DateTime
-  hour           DateTime
+  city           String
+  country        String
+  place          String
+  day            String
+  hour           String
+  finish         String
   premiumTickets Int
   generalTickets Int
   boxTickets     Int
+  priceOne       Int 
+  priceTwo       Int
+  priceTree      Int
   capacity       Int
   favorites      Favorites_User[]
   members        EventArtist[]
@@ -89,6 +95,9 @@ enum UserRole {
   ARTIST
   ADMIN
 }
+
+//crear modelo de compra, ya sea finalizada, cancelada, rechazada,
+
 
 // model Token {
 //   id

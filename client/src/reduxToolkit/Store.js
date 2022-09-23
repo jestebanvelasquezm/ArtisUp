@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import artistsPrincipal from './ReducerSlices/artistSlice'
 import usersPrincipal from './ReducerSlices/UserSlice'
-// import { categoriesPrincipal } from "module";//
+import  eventsPrincipal  from "./ReducerSlices/EventSlice";//
 export default configureStore({
     reducer :{
         artistsPrincipal : artistsPrincipal,
         usersPrincipal: usersPrincipal,
-        // categoriesPrincipal: categoriesPrincipal
+        eventsPrincipal: eventsPrincipal
+        
     }
 })

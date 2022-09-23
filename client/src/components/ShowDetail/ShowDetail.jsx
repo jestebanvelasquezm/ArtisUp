@@ -11,12 +11,13 @@ import EventsArtist from './Events/EventsArtist'
 export default function ShowDetail() {
     const dispatch = useDispatch();
     const params = useParams();
-    const detailUser = useSelector(state =>  state.usersPrincipal.detail);
+    const detailUser = useSelector(state =>  state.usersPrincipal.detailUser);
     useEffect(() => {
         dispatch(getUserDetail(params.id));
     }, [dispatch, params]);
 
-    const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
+    // console.log(detailUser);
+    const rol = JSON.parse(window.localStorage.getItem('Rol'))
 
     return (
         <div className="flex justify-center text-center my-20 h-auto bg-slate-300">
