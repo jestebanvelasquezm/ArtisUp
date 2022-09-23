@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient({ log: ['query', 'info'] });
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient({ log: ['query', 'info'] })
+
 import { Response, Request,  NextFunction } from 'express';
 import Jwt from 'jsonwebtoken';
 import bcryp from 'bcrypt'
@@ -24,41 +25,67 @@ const authController = {
             )
             console.log(req.body.rol);
             //guardando el user
+            try {
+                
             const newUser = await prisma.users.create({
                 data: {
                     image: req.body.image,
                     nickName: req.body.nickName,
                     userName: req.body.userName,
-                    lastName: req.body.lastName,
                     email: req.body.email,
                     password: hashedPassword,//password cifrada
-                    phone: req.body.phone,
+                    phone: Number(req.body.phone),
                     city: req.body.city,
                     country: req.body.country,
                     rol: req.body.rol,
+                    
                 }
             })
-            const fullName = `${newUser.userName}  ${newUser.lastName}`
+            // if(!newUser) return res.status(400).json({error})
+            // const fullName = `${newUser.userName}  ${newUser.lastName}`
             //creando  el token para el ADMIN:
             if(newUser.rol === 'ADMIN'){
+                const data ={
+                    userName:newUser.userName,
+                    email: newUser.email,
+                    image: newUser.image
+                }
                 const adminToken:string = Jwt.sign({user_id: newUser.id}, process.env.TOKEN_SECRET_ADMIN!)
-                return res.status(200).json({ succes: true, data:fullName, token: adminToken, rol:newUser.rol})
+                return res.status(200).json({ succes: true, data:data, token: adminToken, rol:newUser.rol})
                 // return res.header('auth-token', adminToken).json({ succes: true, data: newUser.email })
             }
             console.log(newUser.id);
             //creando  el token para el ARTIST:
             if(newUser.rol === 'ARTIST'){
+                const data ={
+                    userName:newUser.userName,
+                    email: newUser.email,
+                    image: newUser.image
+                }
                 const artistToken:string = Jwt.sign({user_id: newUser.id}, process.env.TOKEN_SECRET_ARTIST!)
-                return res.status(200).json({ succes: true, data: fullName, token: artistToken,rol:newUser.rol})
+                return res.status(200).json({ succes: true, data: data, token: artistToken,rol:newUser.rol})
                 // return res.header('auth-token', artistToken).json({ succes: true, data: newUser.email })
     
             }
             //creando  el token para el USER:
-            if(newUser.rol === 'USER'){const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.USER!)
-            return res.status(200).json({ succes: true, data: fullName, token: accessToken, rol:newUser.rol})
+            if(newUser.rol === 'USER'){
+                const data = {
+                    userName:newUser.userName,
+                    email: newUser.email,
+                    image: newUser.image
+                }
+                const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.USER!)
+            return res.status(200).json({ succes: true, data: data, token: accessToken, rol:newUser.rol})
             // return res.header('auth-token', accessToken).json({ succes: true, data: newUser.email })
         }
+    } catch (error) {
+        console.log(error);
+
+        return res.status(400).json({data:error, })
+    }
+        return res.status(200).json({data:'holaaaa'})
         } catch (error) {
+            console.log(error);
             return error
         }
     },
@@ -154,36 +181,36 @@ const authController = {
              //creando  el token para el ADMIN:
             if(user.rol === 'ADMIN'){
                 const adminToken:string = Jwt.sign({user_id: user.id}, process.env.TOKEN_SECRET_ADMIN!)
-                const admin = {
-                    fullName: `${user.userName}  ${user.lastName}`,
+                const data ={
+                    userName:user.userName,
                     email: user.email,
                     image: user.image
                 }
-                return res.status(200).json({  data: admin, token: adminToken, rol: user.rol})
+                return res.status(200).json({  data: data, token: adminToken, rol: user.rol})
     
                 // return res.header('auth-token', adminToken).json({ succes: true, data: user.email, rol: user.rol})
             }
             //creando  el token para el ARTIST:
             if(user.rol === 'ARTIST'){
                 const artistToken:string = Jwt.sign({user_id: user.id}, process.env.TOKEN_SECRET_ARTIST!)
-                const artist = {
-                    fullName: `${user.userName}  ${user.lastName}`,
+                const data ={
+                    userName:user.userName,
                     email: user.email,
                     image: user.image
                 }
-                return res.status(200).json({  data: artist, token: artistToken, rol: user.rol})
+                return res.status(200).json({  data: data, token: artistToken, rol: user.rol})
                 //'auth-token', artistToken
                 // return res.writeHead(201, {header: artistToken}).json({ succes: true, data: user.email, rol: user.rol })
             }
             //creando  el token para el CONTRACTOR:
             if(user.rol === 'USER'){
                 const token = Jwt.sign({ user_id: user?.id }, process.env.TOKEN_SECRET_USER!)
-                const client = {
-                    fullName: `${user.userName}  ${user.lastName}`,
+                const data ={
+                    userName:user.userName,
                     email: user.email,
                     image: user.image
                 }
-                return res.status(200).json({  data: client, token: token, rol: user.rol})
+                return res.status(200).json({  data: data, token: token, rol: user.rol})
                 // return res.status(200).header('auth-token', token).json({ succes: true, data: user.email, rol: user.rol })
             }
         } catch (error) {

@@ -3,7 +3,7 @@ const router = Router();
 
 //Importar todos los routers
 import Auth from './Auth/auth.routes';
-import Admin from './Admin/Admin.routes';
+import Admin from './Admin/admin.routes';
 import Artist from './Artist/artist.routes';
 import User from './User/user.routes';
 import Event from './Events/event.routes';

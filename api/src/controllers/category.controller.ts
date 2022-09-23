@@ -6,18 +6,23 @@ const prisma = new PrismaClient({ log: ['query', 'info'] });
 
 const categorys = [
     { "name": "poesía" },
-    { "name": "cuentos" },
-    { "name": "teatro" },
+    { "name": "cuenteria" },
+    { "name": "teatral" },
     { "name": "danza" },
+    { "name": "baile" },
     { "name": "escultura" },
     { "name": "música" },
     { "name": "pintura" },
     { "name": "fotografía" },
-    { "name": "baile " },
+    { "name": "baile" },
     { "name": "canto" },
     { "name": "stand-up" },
-    { "name": "mimo" },
-    { "name": "diversion infantil" }
+    { "name": "artes plasticas" },
+    { "name": "diversion infantil" },
+    { "name": "concierto" },
+    { "name": "musica en vivo" },
+
+
 ]
 
 const categoryController = {

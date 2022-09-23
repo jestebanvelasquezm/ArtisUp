@@ -52,27 +52,26 @@ const Authorization = {
         }
     },
     User : async  (req:Request, res:Response, next:NextFunction): Promise<void> => {
+
         try {
-            const headerToken = req.get("Authorization");
+            const headerToken = req.get('Authorization');
             if(!headerToken){
-                res.status(400).json({succes: false, error: 'Token no valido'})
-            }
-            const token = headerToken?.replace("Bearer ", "");
+                    res.status(400).json({succes: false, error: 'Token no valido'})
+                }
+            const token:any = headerToken?.replace("Bearer ", "");
             try {
-                const decoded = Jwt.verify(token!, process.env.TOKEN_SECRET_USER! )//asegurar que va a llegar
-                const user = await prisma.users.findUnique({
-                    id :decoded.user_id
-                })
+                const decoded:any =  Jwt.verify(token, process.env.TOKEN_SECRET_USER! )
+            console.log(decoded.user_id);
+            const user = await prisma.users.findUnique({where: {id : `${decoded.user_id}`}})
                 user.rol === 'USER' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
                 next()
             } catch (error) {
-                return res.status(400).json({mesagge:error})
+            return res.status(400).json({mesagge:error})
             }
+
         } catch (error) {
             return res.status(400).json({mesagge:error})
-    
         }
-        
     }
 }
 

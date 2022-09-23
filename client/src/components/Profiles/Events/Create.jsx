@@ -1,21 +1,27 @@
+import axios from 'axios';
 import React, { useState } from 'react'
-import Modal from '../../Modal/Modal'
+import Modal from '../../Modal/Modal';
+import Swal from 'sweetalert2';
 
 export default function Create() {
     const [showModal, setShowModal] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);//mostrar carga user experience
     const [event, setEvent] = useState({
         eventName: '',
-        imagesEvent: '',
         description:'',
-        duration:'',
+        imagesEvent: '',
+        city:'',
+        country:'',
+        place:'',
         day:'',
         hour:'',
-        lugar:'',
-        ciudad:'',
+        finish:'',
         premiumTickets:0,
         boxTickets:0,
-        generalTickets:0,
+        generalTickets: 0,
+        priceOne:0,
+        priceTwo:0,
+        priceTree:0,
         capacity: 0,
         categories: ''
     })
@@ -41,7 +47,6 @@ export default function Create() {
             }
         )
         const file = await res.json()
-        console.log(file);
         setEvent({
             ...event,
             imagesEvent: file.secure_url
@@ -49,11 +54,26 @@ export default function Create() {
         setLoading(false)
     }
 
-    console.log(event);
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(event);
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault()
+            event.capacity = Number(event.boxTickets) + Number(event.generalTickets) + Number(event.premiumTickets)
+            console.log(event);
+            const response = await axios('http://localhost:4000/events/create',{
+                method:'POST',
+                headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`},
+                data:event
+            })
+            console.log(response);
+            Swal.fire(`evento ${event.eventName} creado con exito`)
+        } catch (error) {
+            Swal.fire(error.message)
+        }
+
+
+
+
     }
 
 
@@ -69,10 +89,6 @@ export default function Create() {
             setShowModal={setShowModal}
             uploadImage={uploadImage}
         />
-
-
-
-
 
     </div>
   )

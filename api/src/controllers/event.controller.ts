@@ -12,13 +12,13 @@ const eventController = {
         try {
             const event = await prisma.event.findMany({
                 where: {
-                    userName: {
+                    eventName: {
                         equals: `${req.query.name}`,
                     },
                 },
                 include: {
                     categories: {
-                        select: {
+                        include: {
                             category: true
                         }
                     },
@@ -59,41 +59,49 @@ const eventController = {
         }
     },
     createEvent: async (req: Request, res: Response, _next: NextFunction) => {
-        const user = await prisma.users.findUnique({
-            where: {
-                id: req.user_id
-            }
-        })
+        console.log(req.body);
         try {
+            try {
                 const newShow = await prisma.event.create({
                     data: {
                         eventName: req.body.eventName,
                         description: req.body.description,
-                        duration: req.body.duration,
                         imagesEvent: req.body.imagesEvent,
-                        hour:req.body.hour,
+                        city: req.body.city,
+                        country: req.body.country,
+                        place: req.body.place,
                         day:req.body.day,
-                        premiumTickets:req.body.premiumTickets,
-                        generalTickets:req.body.generalTickets,
-                        boxTickets:req.body.boxTickets,
+                        hour:req.body.hour,
+                        finish: req.body.finish,
+                        premiumTickets: Number(req.body.premiumTickets),
+                        generalTickets: Number(req.body.generalTickets),
+                        boxTickets:Number(req.body.boxTickets),
+                        priceOne :Number(req.body.priceOne),
+                        priceTwo :Number(req.body.priceTwo),
+                        priceTree :Number(req.body.priceTree),
                         capacity:req.body.capacity,      
                         categories: {
                             create: {
                                 category: {
                                     connect: {
-                                        id: req.body.category
+                                        id: Number(req.body.categories)
                                     }
                                 }
                             }
                         },
                         members: {
                             create: {
-                                userId: req.params.id
+                                userId: req.user_id
                             }
                         }
                     },
                 })
                 res.status(201).json({ data: newShow })
+                
+            } catch (error) {
+                console.log(error);
+            }
+
         } catch (error) {
             res.status(400).json({message:error})
         }

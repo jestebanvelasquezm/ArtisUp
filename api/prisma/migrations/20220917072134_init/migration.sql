@@ -8,7 +8,6 @@ CREATE TABLE "Users" (
     "image" TEXT NOT NULL,
     "nickName" TEXT NOT NULL,
     "userName" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "verify" BOOLEAN NOT NULL DEFAULT false,
@@ -27,13 +26,19 @@ CREATE TABLE "Event" (
     "eventName" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "imagesEvent" TEXT[],
-    "duration" INTEGER NOT NULL,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "city" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "place" TEXT NOT NULL,
     "day" TIMESTAMP(3) NOT NULL,
     "hour" TIMESTAMP(3) NOT NULL,
+    "finish" TIMESTAMP(3) NOT NULL,
     "premiumTickets" INTEGER NOT NULL,
     "generalTickets" INTEGER NOT NULL,
     "boxTickets" INTEGER NOT NULL,
+    "priceOne" INTEGER NOT NULL,
+    "priceTwo" INTEGER NOT NULL,
+    "priceTree" INTEGER NOT NULL,
     "capacity" INTEGER NOT NULL,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
@@ -70,6 +75,9 @@ CREATE TABLE "Favorites_User" (
 
     CONSTRAINT "Favorites_User_pkey" PRIMARY KEY ("userId","eventId")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Users_userName_key" ON "Users"("userName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Users_email_key" ON "Users"("email");

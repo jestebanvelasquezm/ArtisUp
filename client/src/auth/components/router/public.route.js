@@ -10,10 +10,10 @@ export default function PublicRoute(){
     // if(isAuth && JSON.parse(window.sessionStorage.getItem('Rol')) === "ADMIN"){
     //     return <Navigate to={PROFILE_ADMIN} />
     // }
-    if(isAuth && JSON.parse(window.sessionStorage.getItem('Rol')) === 'ARTIST'){
+    if(isAuth && JSON.parse(window.localStorage.getItem('Rol')) === 'ARTIST'){
         return <Navigate to={ARTIST_PROFILE} />
     }
-    if(isAuth && JSON.parse(window.sessionStorage.getItem('Rol')) === 'USER'){
+    if(isAuth && JSON.parse(window.localStorage.getItem('Rol')) === 'USER'){
         return <Navigate to={USER_PROFILE} />
     }
     return(

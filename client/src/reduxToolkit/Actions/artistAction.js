@@ -10,7 +10,7 @@ import {
 export const getAllArtists = () => async (dispatch) => {
     try {
         const {data} = await axios.get("http://localhost:4000/artist/all",{
-            headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`} 
+            // headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`} 
         })
             console.log(data.data);
             dispatch(getArtists(data.data))

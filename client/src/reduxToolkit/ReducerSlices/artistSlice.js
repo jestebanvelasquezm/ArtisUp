@@ -7,7 +7,8 @@ export const artistSlice = createSlice({
         name:[],
         artists:[],
         detail:{},
-        artistByName: []
+        artistByName: [],
+        categories:[]
     },
     reducers: {
         getArtists: (state, action) => {
@@ -24,10 +25,13 @@ export const artistSlice = createSlice({
         },
         getName: (state, action) =>{
             state.name = action.payload
+        },
+        getCategories: (state, action) =>{
+            state.categories = action.payload
         }
     }
 })
 
-export const {getArtists, getArtistsId, getByName, getProfile, getName} = artistSlice.actions
+export const {getArtists, getArtistsId, getByName, getProfile, getName, getCategories} = artistSlice.actions
 
 export default artistSlice.reducer

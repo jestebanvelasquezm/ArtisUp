@@ -6,7 +6,7 @@ import SearchBar from './searchBar/SearchBar';
 
 export default function Navbar() {
 
-    const rol = JSON.parse(sessionStorage.getItem('Rol'))
+    const rol = JSON.parse(window.localStorage.getItem('Rol'))
     
 
     // const logOut = ()=>{

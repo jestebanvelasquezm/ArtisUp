@@ -77,7 +77,6 @@ const adminController = {
                     image: req.body.image,
                     nickName: req.body.nickName,
                     userName: req.body.userName,
-                    lastName: req.body.lastName,
                     email: req.body.email,
                     password: hashedPassword,//password cifrada
                     phone: req.body.phone,

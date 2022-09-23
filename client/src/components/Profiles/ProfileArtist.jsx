@@ -19,12 +19,13 @@ export default function ProfileArtist() {
     }, [])
 
 
-    const rol = JSON.parse(window.sessionStorage.getItem('Rol'))
+    console.log(profile.shows);
+    const rol = JSON.parse(window.localStorage.getItem('Rol'))
 
 
 
     return (
-        <div className="flex  justify-center text-center my-20 h-auto bg-slate-300">
+        <div className="flex  justify-center text-center my-20 h-auto bg-gradient-to-r from-indigo-700 to-yellow-500 ">
             <Navbar />
 
             {(profile) ? <div className="container flex flex-col items-center w-full h-screen " >
@@ -43,7 +44,7 @@ export default function ProfileArtist() {
                         </div>
                         <div className="w-1/2 flex flex-col justify-between">
                             <div className="mb-5">
-                                <p className="text-3xl font-extrabold text-zinc-500">Nombre del artista</p>
+                                <p className="text-3xl font-extrabold text-zinc-500">Nombre Artista(s)</p>
                                 <p className="text-2xl font-light text-zinc-500 capitalize">{profile.userName} {profile.lastName} </p>
                             </div>
                             <div className="mb-5">
@@ -66,13 +67,13 @@ export default function ProfileArtist() {
                     </div>
                 </div>
                 {/* </div> */}
-                <div className="h-screen flex items-center justify-center">
+                <div className="h-screen flex items-center justify-center m-10 space-y-10' ">
                     {/* <Link to='/artist/create' className="bg-neutral-200 px-12 py-4 text-2xl border-neutral-400 border-2 text-neutral-600 hover:text-white hover:shadow-[inset_13rem_0_0_0] hover:shadow-blue-500 duration-[400ms,700ms] transition-[color,box-shadow]">
                         Crear Evento
                     </Link> */}
                     <Create />
                 </div>
-                <div className=' top-10 w-auto  ' >
+                <div className=' top-10 w-auto h-32 ' >
                     <EventsArtist events={profile.shows} />
                 </div>
             </div> : ''}
@@ -80,3 +81,11 @@ export default function ProfileArtist() {
     )
 }
 // setTimeout( rol === 'ADMIN'? navigate("/admin/doctors", 1000) : rol === 'DOCTOR'? navigate("/admin/doctors", 1000) : rol === 'PATIENT'? navigate("/patient/doctors", 1000) :  navigate("/doctors", 1000));
+
+
+//medicapp : va en el componente favoritos:
+{/* <button onClick={()=>disableFav(ele.doctor.id)} className="absolute flex items-center w-10 h-10 right-4 top-4 justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button> */}

@@ -24,9 +24,25 @@ const artistController = {
             const artist = await prisma.users.findUnique({
                 where:{id :req.user_id },
                 include:{
-                    shows:{
+                    shows:
+                    {
                         select:{
-                            event:true
+                            // event:true,
+                            event:{
+                                include:{
+                                    categories:{
+                                        select:{
+                                            category:true
+                                            // {
+                                            //     select:{
+                                            //         name:true
+                                            //     }
+                                            // }
+                                        }
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                 }
