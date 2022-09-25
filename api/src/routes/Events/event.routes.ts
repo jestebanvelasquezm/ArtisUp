@@ -7,7 +7,7 @@ import Authorization from '../../Middlewares/Authorization'
 //http://localhost:4000/...
 // router.get('/events', eventController.getShowsByArtist);
 router.get('/events/eventName', eventController.getEventbyName);
-router.get('/events/:id', eventController.getEventById);
+router.get('/events/:id',[Authorization.User], eventController.getEventById);
 router.post('/events/create',[Authorization.Artist], eventController.createEvent);
 
 

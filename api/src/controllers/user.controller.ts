@@ -1,105 +1,131 @@
 // @ts-nocheck
 import { PrismaClient } from '@prisma/client';
 import { Response, Request } from 'express';
+import Stripe from 'stripe';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
 
+const stripe = Stripe(process.env.STRIPE_KEY)
 
 const userController = {
     getProfile: async (req: Request, res: Response) => {
         try {
             const user = await prisma.users.findUnique({
-                where:{id:`${req.user_id}`},
-                include:{
-                    shows:{
-                        include:{
-                            event:{
-                                include:{
-                                    categories:true
+                where: { id: `${req.user_id}` },
+                include: {
+                    shows: {
+                        include: {
+                            event: {
+                                include: {
+                                    categories: true
                                 }
                             }
-                            
+
                         },
                     }
                 },
-                
+
             })
-                if(!user){
-                    res.status(400).json({succes:false, message:'no existe usuario con esa id'})
-                }else{
-                    res.status(200).json({succes:true, data:user})
-                }
-            } catch (error) {
-                res.status(400).json({succes:false, message:error})
+            if (!user) {
+                res.status(400).json({ succes: false, message: 'no existe usuario con esa id' })
+            } else {
+                res.status(200).json({ succes: true, data: user })
             }
+        } catch (error) {
+            res.status(400).json({ succes: false, message: error })
+        }
     },
     getUsers: async (_req: Request, res: Response) => {
         try {
             const allUsers = await prisma.users.findMany()
-            if(allUsers.length > 0){
+            if (allUsers.length > 0) {
                 res.status(201).json({ data: allUsers })
-            }else {
-                res.status(404).json({message: 'no hay usuarios registrados'})
+            } else {
+                res.status(404).json({ message: 'no hay usuarios registrados' })
             }
-            
+
         } catch (error) {
-            res.status(400).json({message: error})
+            res.status(400).json({ message: error })
         }
     },
-    getUserId: async (req: Request, res: Response) =>{
+    getUserId: async (req: Request, res: Response) => {
         console.log(req.params.id);
         try {
-        const user = await prisma.users.findUnique({
-            where:{id: req.params.id},
-            include:{
-                shows:{
-                    include:{
-                        event:{
-                            include:{
-                                categories:true
+            const user = await prisma.users.findUnique({
+                where: { id: req.params.id },
+                include: {
+                    shows: {
+                        include: {
+                            event: {
+                                include: {
+                                    categories: true
+                                }
                             }
-                        }
-                        
-                    },
-                }
-            },
-            
-        })
-            if(!user){
-                res.status(400).json({succes:false, message:'no existe usuario con esa id'})
-            }else{
-                res.status(200).json({succes:true, data:user})
+
+                        },
+                    }
+                },
+
+            })
+            if (!user) {
+                res.status(400).json({ succes: false, message: 'no existe usuario con esa id' })
+            } else {
+                res.status(200).json({ succes: true, data: user })
             }
         } catch (error) {
-            res.status(400).json({succes:false, message:error})
+            res.status(400).json({ succes: false, message: error })
         }
 
     },
-    avaliableUser: async (req: Request, res: Response) =>{
-        const {boolean} = req.body
+    avaliableUser: async (req: Request, res: Response) => {
+        const { boolean } = req.body
         try {
             const user = await prisma.users.update({
                 where: { id: req.user_id },
                 data: { available: boolean }
-                })
-                res.status(200).json({data:user})
+            })
+            res.status(200).json({ data: user })
         } catch (error) {
-            res.status(400).json({data:error})
+            res.status(400).json({ data: error })
+        }
+    },
+    generateOrder: async (req: Request, res: Response) => {
+        try {
+            const tickets = req.body
+            console.log(req.user_id);
+            console.log(tickets.id);
+            const line_items ={
+                    price_data:{
+                        currency:'usd',
+                        product_data:{
+                            name:tickets.eventName.toUpperCase(),
+                            images: [tickets.imagesEvent] ,
+                            description: `Resumen Tikets:
+                                Premium ${tickets.premiumTickets}, 
+                                Box ${tickets.boxTickets}, 
+                                General ${tickets.generalTickets}`,
+                            metadata:{
+                                id:tickets.id
+                            },
+                        },
+                        unit_amount: tickets.totalPrice * 100
+                    },
+                    quantity: 1
+                }
+         
+            const session = await stripe.checkout.sessions.create({
+                line_items: [line_items],
+                mode: 'payment',
+                success_url: 'http://localhost:3000/user/checkout-success',
+                cancel_url: `http://localhost:3000/user/event/tickets/${tickets.id}`,
+            });
+
+            res.send({ url: session.url});
+
+        } catch (error) {
+            console.log(error);
         }
     }
-    // registerUser: async (_req: Request, _res: Response) => {
-    //     // const { email, password, city, country, rol } = req.body;
-    //     // const newUser: users = await prisma.users.create({
-    //     //     data: {
-    //     //         email,
-    //     //         password,
-    //     //         city,
-    //     //         country,
-    //     //         rol: rol
-    //     //     }
-    //     // });
-    //     // res.status(200).json({ data: newUser })
-    //     // return newUser
-    // }
+
 }
 
 export default userController;

@@ -1,79 +1,226 @@
 import React from 'react'
+import { useState } from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom'
 import { getEventId } from '../../reduxToolkit/Actions/eventAction';
 import Navbar from '../NavBar/NavBar'
+import axios from 'axios';
+
+
 
 export default function FormBuy() {
+    const navigate = useNavigate()
     const params = useParams();
     const dispatch = useDispatch()
+    const event = useSelector(state => state.eventsPrincipal.id)
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getEventId(params.id))
-    },[dispatch, params])
+    }, [dispatch, params])
 
+    let total 
+    let price
+    const [tickets, setTickets] = useState({
+        eventId:'',
+        imagesEvent:'',
+        premiumTickets: 0,
+        boxTickets: 0,
+        generalTickets:0,
+        priceOne:0,
+        priceTwo:0,
+        priceTree:0,
+        totalTickets: 0,
+        totalPrice: 0
+    })
+    total =  parseInt(tickets.premiumTickets?tickets.premiumTickets: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets : 0) + parseInt(tickets.generalTickets? tickets.generalTickets : 0)
+    price= parseInt(tickets.premiumTickets? tickets.premiumTickets * event.priceOne: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets * event.priceTwo : 0) + parseInt(tickets.generalTickets? tickets.generalTickets * event.priceTree : 0) 
 
+    const handleChange = (e) => {
+        setTickets({
+            ...tickets,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        try {
+            tickets.id = event.id
+            tickets.eventName = event.eventName
+            tickets.imagesEvent = event.imagesEvent
+            tickets.priceOne = event.priceOne
+            tickets.priceTwo = event.priceTwo
+            tickets.priceTree = event.priceTree
+            tickets.totalTickets = total
+            tickets.totalPrice = price
+            console.log(tickets);
+            window.localStorage.setItem('cart',JSON.stringify(tickets))
+            const response = await axios('http://localhost:4000/user/create-order',{
+                method:'POST',
+                headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`},
+                data: tickets
+            })
+            if(response.data.url) window.location.href = response.data.url // return navigate('http://localhost:3000/user/checkout-success')
+            
+        } catch (error) {
+            
+        }
+    }
 
     return (
-        <div className='container'>
-            <Navbar />
-            <form className="w-full max-w-lg">
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-                            First Name
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
-                        <p className="text-red-500 text-xs italic">Please fill out this field.</p>
-                    </div>
-                    <div className="w-full md:w-1/2 px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-                            Last Name
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name" type="text" placeholder="Doe" />
-                    </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-6">
-                    <div className="w-full px-3">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-                            Password
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-password" type="password" placeholder="******************" />
-                        <p className="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
-                    </div>
-                </div>
-                <div className="flex flex-wrap -mx-3 mb-2">
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-                            City
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="Albuquerque" />
-                    </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-                            State
-                        </label>
-                        <div className="relative">
-                            <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-                                <option>New Mexico</option>
-                                <option>Missouri</option>
-                                <option>Texas</option>
-                            </select>
-                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                            </div>
+        <div className="w-auto h-screen   font-medium   bg-gray-400">
+            <div className="container  mx-auto">
+                <Navbar />
+                <div className="flex  px-2 my-2">
+                    <div className="w-auto xl:w-6/4 lg:w-11/12 flex">
+                        <div className="w-60"  />
+                            <img className="  my-20 rounded-l-lg  "  src={event.imagesEvent} alt="" />
+                        <div className="w-full  lg:w-7/12  my-20 bg-white p-5 rounded-lg lg:rounded-l-none">
+                            <h3 className="text-2xl text-center pt-10 ">Tickets:</h3>
+                            <form onSubmit={(e) => handleSubmit(e)} className="px-8 pt-10   bg-white rounded">
+                                
+                                <div className="mb-4 md:flex md:justify-between">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
+                                            Premium:  { Number(event.premiumTickets - tickets.premiumTickets)} 
+                                        </label>
+                                            <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceOne} Usd</label>
+                                        <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="premiumTickets" type="number" placeholder="" />
+                                    </div>
+
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            Box:  { Number(event.boxTickets  - tickets.boxTickets)}
+                                        </label>
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =  ${event.priceTwo} Usd</label>
+                                        <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="boxTickets" type="number" placeholder="" />
+                                    </div>
+
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            General: { Number(event.generalTickets - tickets.generalTickets)}
+                                        </label>
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceTree} Usd</label>
+                                        
+                                        <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="generalTickets" type="number" placeholder="" />
+                                    </div>
+                                </div>
+                                <h3 className="pt-4 text-2xl text-center pb-12">Tu Compra:</h3>
+
+                                {/* LISTADO DE LA COMPRA */}
+
+                                <div className="mb-4 md:flex md:justify-between">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
+                                            tickets Premiun: 
+                                        </label>
+                                    </div>
+                                    <div className="md:mr-2">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            {tickets.premiumTickets}
+                                        </label>
+                                    </div>
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            ${Number(tickets.premiumTickets * event.priceOne)}
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr className="mb-6 border-t" />
+
+                                <div className="mb-4 md:flex md:justify-between">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
+                                            tickets Box: 
+                                        </label>
+                                    </div>
+                                    <div className="md:ml-6">
+                                        <label className="block mb-2  text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            {tickets.boxTickets}
+                                        </label>
+                                    </div>
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            ${Number(tickets.boxTickets * event.priceTwo)}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <hr className="mb-6 border-t" />
+
+                                <div className="mb-4 md:flex md:justify-between ">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
+                                            tickets General: 
+                                        </label>
+                                    </div>
+                                    <div className="md:mr-2">
+                                        <label className="block mb-2  text-sm font-bold text-gray-700" htmlFor="lastName">
+                                            {tickets.generalTickets}
+                                        </label>
+                                    </div>
+                                    <div className="md:ml-2 content-center">
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                            ${Number(tickets.generalTickets * event.priceTree)}
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <hr className="mb-6 border-t" />
+
+                                {/* Valor Compra */}
+
+                                <div className="mb-4 md:flex md:justify-between bg">
+                                <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-lg font-bold text-gray-800" >
+                                            Total Compra: 
+                                        </label>
+                                    </div>
+                                    <div className="md:mr-2">
+                                        <label className="block mb-2 text-lg font-bold text-gray-800" htmlFor="lastName">
+                                        {total}
+                                        </label>
+                                    </div>
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-lg font-bold text-gray-800" htmlFor="lastName">
+                                        ${price}
+                                        </label>
+                                    </div>
+                                </div>
+                                <hr className="mb-6 border-t" />
+                                
+                                {/* <div className="mb-4 md:flex md:justify-between">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
+                                            Total Valor: 
+                                        </label>
+                                        <input onChange={(e) => handleChange(e)} value={user.password} className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border  rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="password" type="password" placeholder="******************" />
+                                        <p className="text-xs italic text-red-500">Please choose a password.</p> border-red-500 
+                                    </div>
+                                    <div className="md:ml-2">
+                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="c_password">
+                                            
+                                        </label>
+                                        <input onChange={(e) => handleChange(e)} value={user.c_password} className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="c_password" type="password" placeholder="******************" />
+                                    </div>
+                                </div> */}
+                                <div className="mb-6 text-center">
+                                    <button  className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">
+                                        Pagar
+                                    </button>
+                                </div>
+                                <hr className="mb-6 border-t" />
+                                <div className="mb-6 text-center">
+                                    <button className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-                            Zip
-                        </label>
-                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" type="text" placeholder="90210" />
-                    </div>
                 </div>
-            </form>
-
+            </div>
         </div>
     )
 }

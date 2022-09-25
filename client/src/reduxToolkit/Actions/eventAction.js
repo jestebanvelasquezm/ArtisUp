@@ -9,7 +9,7 @@ export const getEventId = (id) => async (dispatch) => {
         const { data } = await axios.get(`http://localhost:4000/events/${id}`,{
             headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`}
         });
-        console.log(data.data);
+        // console.log(data.data);
         dispatch(getId(data.data));
     } catch (error) {
         console.log(error);
