@@ -10,7 +10,7 @@ export const USER_HOME = '/user/home'
 export const USER_ARTISTS = '/user/artists'
 export const USER_ARTIST_ID = '/user/artist/:id'
 export const USER_EVENT_TICKETS = '/user/event/tickets/:id'
-export const USER_BUY = '/user/buy/:id'
+export const USER_CHECKOUT_SUCCESS = '/user/checkout-success'
 export const USER_LOGOUT = '/user/logout'
 
 

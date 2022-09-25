@@ -38,7 +38,7 @@ const eventController = {
         try {
             const event = await prisma.event.findFirst({
                 where: {
-                    id : req.user_id
+                    id : req.params.id
                 },
                 include:{
                     categories:{
