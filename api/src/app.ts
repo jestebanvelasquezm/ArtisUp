@@ -3,9 +3,10 @@ import cors from 'cors';
 import routes from './routes/index.routes';
 import dotenv from 'dotenv';
 dotenv.config();
+// import bodyParser from 'body-parser'
 
 const server:Application = express();
-
+server.use('/webhook', express.raw({type: "*/*"}));
 server.use(express.json())//transforma body a json
 
 //midlewares:

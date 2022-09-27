@@ -3,8 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import { Response, Request } from 'express';
 import Stripe from 'stripe';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
-
 const stripe = Stripe(process.env.STRIPE_KEY)
+        const endpointSecret = "whsec_9b28ee5a84f7fe2021f24da3debda2e499c69af4ac14250433df30f24264f03c";
+
 
 const userController = {
     getProfile: async (req: Request, res: Response) => {
@@ -91,8 +92,12 @@ const userController = {
     generateOrder: async (req: Request, res: Response) => {
         try {
             const tickets = req.body
-            console.log(req.user_id);
-            console.log(tickets.id);
+            const customer = await stripe.customers.create({
+                metadata:{
+                    userId: req.user_id,
+                    cart: JSON.stringify(req.body.tickets)
+                }
+            })
             const line_items ={
                     price_data:{
                         currency:'usd',
@@ -113,22 +118,49 @@ const userController = {
                 }
          
             const session = await stripe.checkout.sessions.create({
+                payment_method_types: ["card"],
+                // shipping_address_collection: {
+                // allowed_countries: ["US", "CA", "CO"],
+                // },
                 line_items: [line_items],
                 mode: 'payment',
+                customer: customer.id,
                 success_url: 'http://localhost:3000/user/checkout-success',
                 cancel_url: `http://localhost:3000/user/event/tickets/${tickets.id}`,
             });
+
+            // console.log(session);
 
             res.send({ url: session.url});
 
         } catch (error) {
             console.log(error);
         }
+    },
+    hooksStripe: async (req: Request, res: Response) =>{
+        // const endpointSecret = "whsec_9b28ee5a84f7fe2021f24da3debda2e499c69af4ac14250433df30f24264f03c";
+        const sig = req.headers['stripe-signature'];
+
+        const payload = req.body
+
+        let event 
+        try {
+            event =  stripe.webhooks.constructEvent(payload,sig,endpointSecret)
+            console.log(event.data,'data');
+            console.log(event.data.object,'data.object');
+            console.log(event.data.object.id,'data.id');
+
+        } catch (error) {
+            console.log(error);
+            res.status(400).json({succes:'false', message: error.message})
+        }
+
     }
 
 }
 
 export default userController;
+
 
 
 
