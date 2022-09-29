@@ -1,11 +1,20 @@
 // @ts-nocheck
 import { PrismaClient } from '@prisma/client';
-import { Response, Request } from 'express';
+import { Response, Request, Express } from 'express';
 import Stripe from 'stripe';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
 const stripe = Stripe(process.env.STRIPE_KEY)
-        const endpointSecret = "whsec_9b28ee5a84f7fe2021f24da3debda2e499c69af4ac14250433df30f24264f03c";
 
+
+const createOrder = async () => {
+
+}
+const emailbuy = async () => {
+
+}
+const fulfillOrder = async () => {
+
+}
 
 const userController = {
     getProfile: async (req: Request, res: Response) => {
@@ -92,68 +101,90 @@ const userController = {
     generateOrder: async (req: Request, res: Response) => {
         try {
             const tickets = req.body
-            const customer = await stripe.customers.create({
-                metadata:{
+            const metadata = await stripe.customers.create({
+                metadata: {
                     userId: req.user_id,
-                    cart: JSON.stringify(req.body.tickets)
+                    eventId: tickets.id,
+                    premium: tickets.premiumTickets,
+                    box: tickets.boxTickets,
+                    general: tickets.generalTickets,
+                    priceOne: tickets.priceOne,
+                    priceTwo: tickets.priceTwo,
+                    priceThree: tickets.priceTree,
                 }
             })
-            const line_items ={
-                    price_data:{
-                        currency:'usd',
-                        product_data:{
-                            name:tickets.eventName.toUpperCase(),
-                            images: [tickets.imagesEvent] ,
-                            description: `Resumen Tikets:
+            const line_items = {
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: tickets.eventName.toUpperCase(),
+                        images: [tickets.imagesEvent],
+                        description: `Resumen Tikets:
                                 Premium ${tickets.premiumTickets}, 
                                 Box ${tickets.boxTickets}, 
                                 General ${tickets.generalTickets}`,
-                            metadata:{
-                                id:tickets.id
-                            },
+                        metadata: {
+                            id: tickets.id
                         },
-                        unit_amount: tickets.totalPrice * 100
                     },
-                    quantity: 1
-                }
-         
+                    unit_amount: tickets.totalPrice * 100
+                },
+                quantity: 1
+            }
+
             const session = await stripe.checkout.sessions.create({
                 payment_method_types: ["card"],
-                // shipping_address_collection: {
-                // allowed_countries: ["US", "CA", "CO"],
-                // },
                 line_items: [line_items],
                 mode: 'payment',
-                customer: customer.id,
+                metadata: metadata.metadata,
                 success_url: 'http://localhost:3000/user/checkout-success',
                 cancel_url: `http://localhost:3000/user/event/tickets/${tickets.id}`,
             });
 
             // console.log(session);
 
-            res.send({ url: session.url});
+            res.send({ url: session.url });
 
         } catch (error) {
             console.log(error);
         }
     },
-    hooksStripe: async (req: Request, res: Response) =>{
-        // const endpointSecret = "whsec_9b28ee5a84f7fe2021f24da3debda2e499c69af4ac14250433df30f24264f03c";
+    hooksStripe: async (req: Request, res: Response) => {
         const sig = req.headers['stripe-signature'];
-
-        const payload = req.body
-
-        let event 
+        // console.log(req.body, 'eventoooooooo');
+        let buyEvent;
+        let session;
+        let data;
         try {
-            event =  stripe.webhooks.constructEvent(payload,sig,endpointSecret)
-            console.log(event.data,'data');
-            console.log(event.data.object,'data.object');
-            console.log(event.data.object.id,'data.id');
-
-        } catch (error) {
-            console.log(error);
-            res.status(400).json({succes:'false', message: error.message})
+            session = Stripe.webhooks.constructEvent(req.body, sig, process.env.END_POINT_SECRET)
+            // console.log('eventttttttttt', event.data.object.metadata);
+        } catch (err) {
+            console.log('error', err.message);
+            res.status(400).send(`Webhook Error: ${err.message}`);
+            return;
         }
+        buyEvent = session.data.object.metadata;
+        data = session.data.object;
+        session = session.type;
+        if (session === 'checkout.session.completed') {
+            // Stripe.
+            console.log('eventttttttttt', buyEvent);
+            const items = await stripe.checkout.sessions.listLineItems(
+                data.id
+            );
+            console.log('itemssssssssss', items.data);
+            const buy = {
+                sub_total: data.amount_subtotal,
+                total: data.amount_total,
+                created: data.created,
+                currency: data.currency,
+                payment_status: data.payment_status,
+            }
+
+
+        }
+
+        res.send().end();
 
     }
 
