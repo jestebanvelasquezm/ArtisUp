@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Event" ALTER COLUMN "imagesEvent" SET NOT NULL,
-ALTER COLUMN "imagesEvent" SET DATA TYPE TEXT;

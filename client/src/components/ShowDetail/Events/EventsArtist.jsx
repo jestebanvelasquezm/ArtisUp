@@ -62,7 +62,7 @@ export default function EventsArtist({events}) {
                                 </div>
                                         <div className='flex '>
                                             <p className="text-xl flex-1 font-mono"> General:{ele.event.generalTickets}</p>
-                                            <p className="text-lg flex-1  font-mono">${ele.event.priceTree}  Unidad.</p>
+                                            <p className="text-lg flex-1  font-mono">  ${ele.event.priceThree} <br /> Unidad.</p>
                                         </div>
                                     </div>
                                     <div className="flex flex-row justify-center">

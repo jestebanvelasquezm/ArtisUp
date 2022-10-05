@@ -21,6 +21,7 @@ export default function SignUp() {
         country: '',
         password: '',
         c_password: '',
+        rol:''
     })
 
     const handleChange = (e) => {
@@ -100,9 +101,12 @@ export default function SignUp() {
                             <form onSubmit={(e) => handleSubmit(e)} className="px-8 pt-10 pb-8 mb-4 bg-white rounded">
                                 <div className="mb-4 md:flex md:justify-between">
                                     <div className="mb-4 md:mr-2 md:mb-0">
+                                        
                                         <label className="block mb-2 text-sm font-bold text-gray-700" >
-                                            Nombre & Apellido
+                                        { !user.rol || user.rol === 'USER'?  'Nombre & Apellido' : 'Integrantes' }
                                         </label>
+
+                                       
                                         <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="userName" type="text" placeholder="user name" />
                                     </div>
                                     <div className="md:ml-2">

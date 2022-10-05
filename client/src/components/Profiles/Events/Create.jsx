@@ -21,7 +21,7 @@ export default function Create() {
         generalTickets: 0,
         priceOne:0,
         priceTwo:0,
-        priceTree:0,
+        priceThree:0,
         capacity: 0,
         categories: ''
     })

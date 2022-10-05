@@ -2,19 +2,11 @@
 import { PrismaClient } from '@prisma/client';
 import { Response, Request, Express } from 'express';
 import Stripe from 'stripe';
+import sendMail from '../utils/nodeMailer';
 const prisma = new PrismaClient({ log: ['query', 'info'] });
 const stripe = Stripe(process.env.STRIPE_KEY)
 
 
-const createOrder = async () => {
-
-}
-const emailbuy = async () => {
-
-}
-const fulfillOrder = async () => {
-
-}
 
 const userController = {
     getProfile: async (req: Request, res: Response) => {
@@ -110,7 +102,7 @@ const userController = {
                     general: tickets.generalTickets,
                     priceOne: tickets.priceOne,
                     priceTwo: tickets.priceTwo,
-                    priceThree: tickets.priceTree,
+                    priceThree: tickets.priceThree,
                 }
             })
             const line_items = {
@@ -167,25 +159,37 @@ const userController = {
         data = session.data.object;
         session = session.type;
         if (session === 'checkout.session.completed') {
-            // Stripe.
+            
             console.log('eventttttttttt', buyEvent);
-            const items = await stripe.checkout.sessions.listLineItems(
-                data.id
-            );
-            console.log('itemssssssssss', items.data);
-            const buy = {
-                sub_total: data.amount_subtotal,
-                total: data.amount_total,
-                created: data.created,
-                currency: data.currency,
-                payment_status: data.payment_status,
-            }
-
-
+            console.log('itemssssssssss', data);
+            const payment = await prisma.payment.create({
+                data:{
+                    userId:buyEvent.userId,
+                    eventId: buyEvent.eventId,
+                    premium: Number(buyEvent.premium),
+                    box: Number(buyEvent.box),
+                    general: Number(buyEvent.general),
+                    currency: data.id,
+                    payment_status: data.payment_status,
+                    amount_total : data.amount_total 
+                }
+            })
+            
         }
 
         res.send().end();
 
+    },
+    email: async (req: Request, res: Response) =>{
+        const user = req.body
+        try {
+            const response =  sendMail(user)
+
+            res.status(200).json({success:response})
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 }
