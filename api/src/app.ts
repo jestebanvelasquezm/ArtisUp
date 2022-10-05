@@ -2,12 +2,16 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import routes from './routes/index.routes';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser'
 dotenv.config();
-// import bodyParser from 'body-parser'
 
 const server:Application = express();
 server.use('/webhook', express.raw({type: "*/*"}));
+
+server.use("/webhook", bodyParser.raw({ type: "*/*" }));
 server.use(express.json())//transforma body a json
+
+
 
 //midlewares:
 server.use((_req: any, _resp: any, next: () => void) => {

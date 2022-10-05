@@ -78,7 +78,7 @@ const eventController = {
                         boxTickets:Number(req.body.boxTickets),
                         priceOne :Number(req.body.priceOne),
                         priceTwo :Number(req.body.priceTwo),
-                        priceTree :Number(req.body.priceTree),
+                        priceThree :Number(req.body.priceThree),
                         capacity:req.body.capacity,      
                         categories: {
                             create: {

@@ -1,5 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Aos from 'aos';
+import 'aos/dist/aos.css';
+
 import Home from "./components/Home/Home";
 import AllShows from "./components/Shows/allShows";
 import ShowDetail from "./components/ShowDetail/ShowDetail";
@@ -22,12 +25,17 @@ import Create from "./components/Profiles/Events/Create";
 import SignUp from "./components/Forms/SignUp";
 import ProfileUser from "./components/Profiles/ProfileUser";
 import CheckoutSuccess from "./components/Buy/CheckoutSuccess";
+import Footer from "./components/Footer/Footer";
 
 
 
 
 
 function App() {
+    Aos.init({
+    duration: 1800,
+    offset: 100,
+  });
     return (
         <AuthContextProvider>
         <BrowserRouter>
@@ -38,6 +46,7 @@ function App() {
                     <Route path={ARTIST_ID} element={<ShowDetail />} />
                     <Route path={LOGIN} element={<Login />} />
                     <Route path={SIGNUP} element={<SignUp />} />
+
 
                 </Route>
                 <Route path="/user" element={<UserRoute/>}>
@@ -67,6 +76,8 @@ function App() {
                 </Route> */}
                 {/* <Route path="*" elements/> */}
             </Routes>
+      {/* <div className='h-[4000px]'></div> */}
+
         </BrowserRouter>
     </AuthContextProvider>
     );

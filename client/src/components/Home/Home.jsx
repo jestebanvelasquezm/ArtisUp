@@ -1,12 +1,17 @@
 import React from 'react'
-import Header from '../Header/Header'
-import Navbar from '../NavBar/NavBar'
+import Footer from '../Footer/Footer'
+import Header from './landin/Header'
+import Hero from './landin/Hero'
+import OverView from './landin/OverView'
 
 export default function Home() {
   return (
-    <div className='bg-slate-100'>
-        <Navbar />
-        <Header />
+    <div className='bg-black'>
+        {/* <Navbar /> */}
+        <Header/>
+        <Hero />
+        <OverView />
+        <Footer />
     </div>
   )
 }

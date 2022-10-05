@@ -120,7 +120,7 @@ export default function Modal({handleChange, handleSubmit, event, showModal, set
                                                 <label  class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300">General Tickets</label>
                                                 <input type="number" name="generalTickets" value={event.generalTickets} onChange={(e) => handleChange (e) } id="text" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                                                 <label  class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-300">Precio</label>
-                                                <input type="number" name="priceTree" value={event.priceTree} onChange={(e) => handleChange (e) } id="text" placeholder="precio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                                                <input type="number" name="priceThree" value={event.priceTree} onChange={(e) => handleChange (e) } id="text" placeholder="precio" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
                                             </div>
                                         </div>
 

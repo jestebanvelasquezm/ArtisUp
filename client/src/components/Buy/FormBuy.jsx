@@ -10,7 +10,7 @@ import axios from 'axios';
 
 
 export default function FormBuy() {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const params = useParams();
     const dispatch = useDispatch()
     const event = useSelector(state => state.eventsPrincipal.id)
@@ -29,12 +29,12 @@ export default function FormBuy() {
         generalTickets:0,
         priceOne:0,
         priceTwo:0,
-        priceTree:0,
+        priceThree:0,
         totalTickets: 0,
         totalPrice: 0
     })
     total =  parseInt(tickets.premiumTickets?tickets.premiumTickets: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets : 0) + parseInt(tickets.generalTickets? tickets.generalTickets : 0)
-    price= parseInt(tickets.premiumTickets? tickets.premiumTickets * event.priceOne: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets * event.priceTwo : 0) + parseInt(tickets.generalTickets? tickets.generalTickets * event.priceTree : 0) 
+    price= parseInt(tickets.premiumTickets? tickets.premiumTickets * event.priceOne: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets * event.priceTwo : 0) + parseInt(tickets.generalTickets? tickets.generalTickets * event.priceThree : 0) 
 
     const handleChange = (e) => {
         setTickets({
@@ -51,7 +51,7 @@ export default function FormBuy() {
             tickets.imagesEvent = event.imagesEvent
             tickets.priceOne = event.priceOne
             tickets.priceTwo = event.priceTwo
-            tickets.priceTree = event.priceTree
+            tickets.priceThree = event.priceThree
             tickets.totalTickets = total
             tickets.totalPrice = price
             console.log(tickets);
@@ -101,7 +101,7 @@ export default function FormBuy() {
                                         <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
                                             General: { Number(event.generalTickets - tickets.generalTickets)}
                                         </label>
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceTree} Usd</label>
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceThree} Usd</label>
                                         
                                         <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="generalTickets" type="number" placeholder="" />
                                     </div>
@@ -162,7 +162,7 @@ export default function FormBuy() {
                                     </div>
                                     <div className="md:ml-2 content-center">
                                         <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
-                                            ${Number(tickets.generalTickets * event.priceTree)}
+                                            ${Number(tickets.generalTickets * event.priceThree)}
                                         </label>
                                     </div>
                                 </div>

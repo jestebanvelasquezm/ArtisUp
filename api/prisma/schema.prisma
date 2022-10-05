@@ -25,13 +25,14 @@ model Users {
   rol            UserRole
   shows          EventArtist[]
   Favorites_User Favorites_User[]
+  payment        Payment[]
+  comments       Comments[]
 }
-
 
 model Event {
   id             String           @id @default(uuid())
   available      Boolean          @default(true)
-  eventName      String           
+  eventName      String
   description    String
   imagesEvent    String
   isActive       Boolean          @default(true)
@@ -44,21 +45,23 @@ model Event {
   premiumTickets Int
   generalTickets Int
   boxTickets     Int
-  priceOne       Int 
+  priceOne       Int
   priceTwo       Int
-  priceTree      Int
+  priceThree     Int
   capacity       Int
   favorites      Favorites_User[]
   members        EventArtist[]
   categories     Category_Event[]
+  payment        Payment[]
+  comments       Comments[]
   // CalificationService CalificationService[] //calificaciones de los servicios!
 }
 
 model EventArtist {
   eventId String
   event   Event  @relation(fields: [eventId], references: [id])
-  userId String
-  user   Users  @relation(fields: [userId], references: [id])
+  userId  String
+  user    Users  @relation(fields: [userId], references: [id])
 
   @@id([eventId, userId])
 }
@@ -72,8 +75,8 @@ model Category {
 
 //relacion entre usuario-Artista y show:
 model Category_Event {
-  eventId     String
-  event       Event    @relation(fields: [eventId], references: [id])
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id])
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
   assignedAt DateTime @default(now())
@@ -81,11 +84,38 @@ model Category_Event {
   @@id([eventId, categoryId]) //codificando la clave de la relacion
 }
 
+model Payment {
+  premium        Int
+  box            Int
+  general        Int
+  currency       String
+  payment_status String
+  amount_total   Int
+  userId         String
+  user           Users  @relation(fields: [userId], references: [id])
+  eventId        String
+  event          Event  @relation(fields: [eventId], references: [id])
+
+  @@id([userId, eventId])
+}
+
 model Favorites_User {
+  active  Boolean @default(true)
   userId  String
-  user    Users  @relation(fields: [userId], references: [id])
+  user    Users   @relation(fields: [userId], references: [id])
   eventId String
-  event   Event  @relation(fields: [eventId], references: [id])
+  event   Event   @relation(fields: [eventId], references: [id])
+
+  @@id([userId, eventId])
+}
+
+model Comments {
+  description String
+  starts      Int
+  userId      String
+  user        Users  @relation(fields: [userId], references: [id])
+  eventId     String
+  event       Event  @relation(fields: [eventId], references: [id])
 
   @@id([userId, eventId])
 }
@@ -96,29 +126,8 @@ enum UserRole {
   ADMIN
 }
 
-//crear modelo de compra, ya sea finalizada, cancelada, rechazada,
-
-
 // model Token {
 //   id
 // }
 
-///////////////////////// Pruebas /////////////////////////////////////
-// model AppArtsist {
-//   createdAt DateTime @default(now())
-//   role      UserRole
-//   userId String
-//   showId String
-//   @@id([userId, showId, role])
-// }
 
-// model CalificationService {
-//   id        Int      @unique @default(autoincrement())
-//   createdAt DateTime @default(now())
-//   comments  String
-//   score     Int // para presentarlo como un porcentaje result * 10^-1 = ...5%
-
-//   //relacion al show
-//   showId String
-//   show   Show   @relation(fields: [showId], references: [id])
-// }
