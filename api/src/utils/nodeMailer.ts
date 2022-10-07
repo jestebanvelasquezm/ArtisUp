@@ -2,7 +2,7 @@
 
 import nodemailer from 'nodemailer';
 import register from './html/register.js';
-import {google} from 'googleapis';
+// import {google} from 'googleapis';
 import nodemailerSendgrid from 'nodemailer-sendgrid'
 
 
@@ -29,6 +29,9 @@ const createTrans = async () => {
             }
             
           });
+          transport.verify().then( ()=>{
+        console.log("Listo para enviar emails");
+      });
         return transport;
         
     } catch (error) {
@@ -53,17 +56,17 @@ const createTrans = async () => {
 // const sendMail = async (subject:any, message:any, send_to:string, send_from:string, reply_to:any ) =>{
     const sendMail = async (user:any) =>{
 
-    const trasnporter =  createTrans()
+    const transporter = await createTrans()
 
-    const options = await trasnporter.sendMail( {
+    await transporter.sendMail({
         from: 'events app <eventosapp22@gmail.com>',
         to: user.email,     //['info@info.com'],send_to, // 1 ó []
         subject: `hola ${user.name}, bienvenido a tu comunidad `,
         html:'<b>hola mundo ! </b>',
-    } )
-    console.log('Mensaje enviado', options.messageId);
-
-    return options
+    })
+    console.log('Mensaje enviado');
+    return
+    // return options
     // const options = {
     //     from: send_from,
     //     to: send_to, // 1 ó []

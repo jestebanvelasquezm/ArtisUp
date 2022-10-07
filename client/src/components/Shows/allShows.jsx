@@ -27,8 +27,8 @@ export default function AllShows() {
             <Header />
             <div className="bg-black py-20 pt-[142px] pb-[60px] ">
             <CardShows artists={artists} />
-            <Footer />
             </div>
+            <Footer />
 
         </div>
     )

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
-import {Link, useNavigate} from 'react-router-dom'
-import Navbar from '../NavBar/NavBar'
+import {Link, } from 'react-router-dom'
 import axios from 'axios'
-import Modal from '../Modal/Modal'
 import { useAuthContext } from '../../auth/context/authContext'
+import Header from '../Home/landin/Header'
+import Footer from '../Footer/Footer'
 
 const Validate = (input) => {
     let errors = {};
@@ -65,19 +65,19 @@ export default function Login() {
 
 
     return (
-        <div>
-        <Navbar/>
-            <section className="h-screen">
-                <div className="container px-6 py-12 h-full">
-                    <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-                        <div className="md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
+        <>
+            <Header/>
+            <section className="h-screen  bg-black">
+                <div className="container   mx-auto min-h-[900px] flex  justify-center items-center">
+                    <div className="flex flex-col lg:flex-row justify-center items-center mt-20 lg:gap-20  text-gray-800">
+                        <div className="md:w-8/12 w-full   md:mb-0 mb-10  rounded-3xl" data-aos='fade-left' data-aos-offset='300'>
                             <img
-                                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                                className="w-full"
+                                src="https://res.cloudinary.com/esteban3232/image/upload/v1664933423/eventApp/photo-1565035010268-a3816f98589a_nkxuy8.jpg"
+                                className=" rounded-3xl "
                                 alt="Phone"
                             />
                         </div>
-                        <div className="md:w-8/12 lg:w-5/12 lg:ml-20">
+                        <div className="md:w-8/12 lg:ml-20   ">
                             <form onSubmit={(e)=>loginSubmit(e)} >
 
                                 <div className="mb-6">
@@ -111,14 +111,14 @@ export default function Login() {
                                 <div className="flex justify-between items-center mb-6">
                                     <Link
                                         to='/'
-                                        className="text-blue-400 hover:text-blue-700 focus:text-blue-700 active:text-blue-800 duration-200 transition ease-in-out"
+                                        className="text-gray-500 hover:text-green-400 focus:text-green-700 active:text-green-800 duration-200 transition ease-in-out"
                                     >Forgot password?</Link>
                                 </div>
 
                                 
                                     <button
                                     type="submit"
-                                    className="inline-block px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-600 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+                                    className="inline-block px-7 py-3 bg-green-400 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-green-500 hover:shadow-lg focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-600 active:shadow-lg transition duration-150 ease-in-out w-full"
                                     data-mdb-ripple="true"
                                     data-mdb-ripple-color="light"
                                     disabled= {Object.keys(error).length === 0 ? false : true}
@@ -131,11 +131,11 @@ export default function Login() {
                                 <div
                                     className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5"
                                 >
-                                    <p className="text-center font-semibold mx-4 mb-0">OR</p>
+                                    <p className="text-center text-white font-semibold mx-4 mb-0">OR</p>
                                 </div>
 
                                 <Link
-                                    className="px-7 py-3 bg-slate-600 hover:bg-slate-700 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
+                                    className="px-7 py-3  bg-amber-400 hover:bg-amber-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center mb-3"
                                     to='/signup'
                                 >
                                         Register
@@ -145,6 +145,7 @@ export default function Login() {
                     </div>
                 </div>
             </section>
-        </div>
+            <Footer />
+        </>
     )
 }

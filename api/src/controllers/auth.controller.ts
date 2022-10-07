@@ -41,6 +41,7 @@ const authController = {
                     
                 }
             })
+            console.log(newUser, 'Usuarioooo');
             // if(!newUser) return res.status(400).json({error})
             // const fullName = `${newUser.userName}  ${newUser.lastName}`
             //creando  el token para el ADMIN:
@@ -74,7 +75,8 @@ const authController = {
                     email: newUser.email,
                     image: newUser.image
                 }
-                const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.USER!)
+                const accessToken: string = Jwt.sign({ user_id: newUser.id }, process.env.TOKEN_SECRET_USER)
+                
             return res.status(200).json({ succes: true, data: data, token: accessToken, rol:newUser.rol})
             // return res.header('auth-token', accessToken).json({ succes: true, data: newUser.email })
         }

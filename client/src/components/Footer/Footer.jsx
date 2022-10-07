@@ -6,7 +6,7 @@ export default function Footer() {
 
     const {copyText,social } = copyright;
     return (
-        <footer className='pt-[142px] pb-[60px]'>
+        <footer className='pt-[142px] pb-[60px] bg-black'>
             <div className='container mx-auto '>
                 <div className='flex flex-col items-center text-center lg:flex-row lg:items-start lg:text-left lg:justify-between gap-y-8'>
                 </div>

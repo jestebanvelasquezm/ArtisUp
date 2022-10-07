@@ -17,21 +17,46 @@ export default function Header() {
         })
     })
 
+    const rol = JSON.parse(window.localStorage.getItem('Rol'))
+
   return (
     <header className={`${isActive ? 'bg-black' : 'bg-dark'} py-6 lg:py-4 fixed w-full transition-all z-10 shadow-black shadow-xl `}>
         <div className='container mx-auto flex justify-between items-center' >
-            <Link to='/' data-aos='fade-down' data-aos-delay='600'>
+            <Link to={rol === 'ADMIN' ? "/admin/home" : rol === 'ARTIST' ? "/artist/home" : rol === 'USER' ? "/user/home" : "/"} data-aos='fade-down' data-aos-delay='600'>
                 <p className={`${isActive ? 'text-gray-50' : 'text-gray-200'} `}>Events App</p>
             </Link>
             <div className='hidden lg:flex' data-aos='fade-down' data-aos-delay='800'>
+            {
+                    rol ? (
+                            <Link to={rol === 'ADMIN' ? "/admin" : rol === 'ARTIST' ? "/artist" : rol === 'USER' ? "/user" : null} className='hover:text-green-400 px-4 trasnsition text-gray-100' data-aos='fade-down' data-aos-delay='600'> Profile</Link>
+                        
+                    )
+                        :
+                        null
+                }
                 <Nav />
             </div>
+            {
+                rol==='ADMIN'?
+                <Link to='/admin/logout' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                    Logout
+                </Link>
+                :rol==='ARTIST'?
+                <Link to='/artist/logout' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                    Logout
+                </Link>
+                :rol==='USER'?
+                 <Link to='/user/logout' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                    Logout
+                </Link>
+                :
             <Link to='/login' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
                 {btnText}
             </Link>
+            }
             <button className='lg:hidden' onClick={() =>{ setMobileNav(!mobileNav)}}>
                 {mobileNav ? (
-                        <HiOutlineX  className='text-3xl text-accent'/>
+                        <HiOutlineX  className='text-3xl text-green-400'/>
                     ): (
                         <HiMenuAlt4 className='text-3xl text-white' />
                     )

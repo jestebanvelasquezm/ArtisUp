@@ -1,6 +1,7 @@
 import React,{ useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getAllCategories } from "../../reduxToolkit/Actions/categoryAction";
 
 export default function Modal({handleChange, handleSubmit, event, showModal, setShowModal, uploadImage }) {
@@ -13,13 +14,16 @@ export default function Modal({handleChange, handleSubmit, event, showModal, set
 
     return (
         <>
-            <button
-                className="bg-blue-500 text-white active:bg-blue-700 font-bold uppercase text-sm px-6 py-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            {/* <button
+                className="bg-amber-400 text-white active:bg-amber-700 font-bold uppercase text-sm px-6 py-4 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={() => setShowModal(true)}
             >
                 Crear Evento
-            </button>
+            </button> */}
+            <p onClick={() => setShowModal(true)} className='btn py-8 px-10 mt-10 flex flex-col bg-transparent bg-opacity-80 shadow-2xl text-gray-200 border border-gray-100 hover:border-green-500 hover:bg-green-500 hover:text-white  lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                Crear Evento
+            </p>
             {showModal ? (
                 <>
                     <div
