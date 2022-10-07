@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 
 
 export default function Hero() {
-    const {title,subtitle,compText, btnText, image,} = hero;
+    const {title,subtitle, btnText, image,} = hero;
+    const rol = JSON.parse(window.localStorage.getItem('Rol'))
   return (
     <section className='bg-black min-h-[900px] py-20'>
         <div className="container mx-auto min-h-[900px] flex justify-center items-center">
@@ -18,7 +19,7 @@ export default function Hero() {
                         data-aos-delay='600'>{subtitle}</p>
                     <div className='flex items-center justify-center max-w-sm lg:max-w-full mx-auto lg:mx-0 gap-x-2 lg:gap-x-6' data-aos='fade-down'
                             data-aos-delay='700'>
-                        <Link to='/artists' className='text-white btn btn-md lg:btn-lg btn-amber flex items-center justify-center lg:gap-x-4' >
+                        <Link to={rol === 'ADMIN' ? "/admin/artists" : rol === 'ARTIST' ? "/artist/artists" : rol === 'USER' ? "/user/artists" : "/artists"  } className='text-white btn btn-md lg:btn-lg btn-amber flex items-center justify-center lg:gap-x-4' >
                             {btnText}
                             <HiOutlineChevronDown/>
                         </Link>

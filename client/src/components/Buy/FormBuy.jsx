@@ -6,11 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getEventId } from '../../reduxToolkit/Actions/eventAction';
 import Navbar from '../NavBar/NavBar'
 import axios from 'axios';
+import Header from '../Home/landin/Header';
+import Footer from '../Footer/Footer';
 
 
 
 export default function FormBuy() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const params = useParams();
     const dispatch = useDispatch()
     const event = useSelector(state => state.eventsPrincipal.id)
@@ -19,22 +21,26 @@ export default function FormBuy() {
         dispatch(getEventId(params.id))
     }, [dispatch, params])
 
-    let total 
+    let total
     let price
     const [tickets, setTickets] = useState({
-        eventId:'',
-        imagesEvent:'',
+        eventId: '',
+        imagesEvent: '',
         premiumTickets: 0,
         boxTickets: 0,
-        generalTickets:0,
-        priceOne:0,
-        priceTwo:0,
-        priceThree:0,
+        generalTickets: 0,
+        priceOne: 0,
+        priceTwo: 0,
+        priceThree: 0,
         totalTickets: 0,
         totalPrice: 0
     })
-    total =  parseInt(tickets.premiumTickets?tickets.premiumTickets: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets : 0) + parseInt(tickets.generalTickets? tickets.generalTickets : 0)
-    price= parseInt(tickets.premiumTickets? tickets.premiumTickets * event.priceOne: 0 ) + parseInt(tickets.boxTickets? tickets.boxTickets * event.priceTwo : 0) + parseInt(tickets.generalTickets? tickets.generalTickets * event.priceThree : 0) 
+    const [errors, setErrors] = useState({
+        premiumTickets: 'premiumTickets is required',
+
+    })
+    total = parseInt(tickets.premiumTickets ? tickets.premiumTickets : 0) + parseInt(tickets.boxTickets ? tickets.boxTickets : 0) + parseInt(tickets.generalTickets ? tickets.generalTickets : 0)
+    price = parseInt(tickets.premiumTickets ? tickets.premiumTickets * event.priceOne : 0) + parseInt(tickets.boxTickets ? tickets.boxTickets * event.priceTwo : 0) + parseInt(tickets.generalTickets ? tickets.generalTickets * event.priceThree : 0)
 
     const handleChange = (e) => {
         setTickets({
@@ -43,7 +49,7 @@ export default function FormBuy() {
         })
     }
 
-    const handleSubmit = async (e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             tickets.id = event.id
@@ -55,54 +61,60 @@ export default function FormBuy() {
             tickets.totalTickets = total
             tickets.totalPrice = price
             console.log(tickets);
-            window.localStorage.setItem('cart',JSON.stringify(tickets))
-            const response = await axios('http://localhost:4000/user/create-order',{
-                method:'POST',
-                headers: { Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`},
+            window.localStorage.setItem('cart', JSON.stringify(tickets))
+            const response = await axios('http://localhost:4000/user/create-order', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}` },
                 data: tickets
             })
-            if(response.data.url) window.location.href = response.data.url // return navigate('http://localhost:3000/user/checkout-success')
-            
+            if (response.data.url) window.location.href = response.data.url // return navigate('http://localhost:3000/user/checkout-success')
+
         } catch (error) {
-            
+
         }
     }
 
     return (
-        <div className="w-auto h-screen   font-medium   bg-gray-400">
+        <div className="w-full h-auto   font-medium   bg-black">
+            <Header />
             <div className="container  mx-auto">
-                <Navbar />
-                <div className="flex  px-2 my-2">
-                    <div className="w-auto xl:w-6/4 lg:w-11/12 flex">
-                        <div className="w-60"  />
-                            <img className="  my-20 rounded-l-lg  "  src={event.imagesEvent} alt="" />
-                        <div className="w-full  lg:w-7/12  my-20 bg-white p-5 rounded-lg lg:rounded-l-none">
-                            <h3 className="text-2xl text-center pt-10 ">Tickets:</h3>
-                            <form onSubmit={(e) => handleSubmit(e)} className="px-8 pt-10   bg-white rounded">
-                                
-                                <div className="mb-4 md:flex md:justify-between">
-                                    <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
-                                            Premium:  { Number(event.premiumTickets - tickets.premiumTickets)} 
+                <div className="   ">
+                    <div className=" flex flex-col flex-wrap items-center justify-center w-auto     bg-black" data-aos='fade-up' data-aos-offset='800'>
+                        {/* <div className="w-60 flex flex-col bg-green-800 " /> */}
+                            <div className='w-full lg:rounded-full p-5 rounded-3xl  bg-green-500 flex flex-row items-center justify-center  my-32' >
+                            <img className="  w-96 rounded-3xl shadow-2xl   duration-200 hover:transform hover:scale-105  shadow-gray-800" src={event.imagesEvent} alt="" />
+
+                            </div>
+                            <div className="mb-5 my-0  ">
+                        <p className="text-6xl text-center font-extrabold text-zinc-200 capitalize  " data-aos='fade-down' data-aos-offset='300'>Tickets</p>
+                    </div>
+                            {/* <h3 className="text-2xl text-center pt-10 ">Tickets:</h3> */}
+                            <div className="w-full     rounded-lg lg:rounded-l-none">
+                            <form onSubmit={(e) => handleSubmit(e)} className="px-8 p-10 bg-zinc-800  rounded-xl"  data-aos='fade-up' data-aos-offset='300'>
+
+                                <div className=" md:flex md:justify-between "  data-aos='fade-down' data-aos-offset='300'>
+                                    <div className=" mb-10 bg-yellow-400 bg-opacity-50 rounded-xl">
+                                        <label className="block p-5 text-sm font-bold text-center text-gray-100" >
+                                            Premium:  {Number(event.premiumTickets - tickets.premiumTickets)}
                                         </label>
-                                            <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceOne} Usd</label>
-                                        <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="premiumTickets" type="number" placeholder="" />
+                                        <label className="block lg:mb-2 text-sm font-bold text-center text-gray-100">1 =   ${event.priceOne} Usd</label>
+                                        <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-800 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="premiumTickets" type="number" placeholder="" />
                                     </div>
 
-                                    <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
-                                            Box:  { Number(event.boxTickets  - tickets.boxTickets)}
+                                    <div className=" mb-10 bg-blue-400 bg-opacity-50 rounded-xl"  data-aos='fade-down' data-aos-offset='300'>
+                                        <label className="block p-5 text-sm font-bold text-center text-gray-100" htmlFor="lastName">
+                                            Box:  {Number(event.boxTickets - tickets.boxTickets)}
                                         </label>
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =  ${event.priceTwo} Usd</label>
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-100">1 =  ${event.priceTwo} Usd</label>
                                         <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="boxTickets" type="number" placeholder="" />
                                     </div>
 
-                                    <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
-                                            General: { Number(event.generalTickets - tickets.generalTickets)}
+                                    <div className="mb-10 bg-green-400 bg-opacity-50 rounded-xl"  data-aos='fade-flip-down' data-aos-offset='300'>
+                                        <label className="block  p-5  text-sm font-bold text-center text-gray-100" htmlFor="lastName">
+                                            General:{Number(event.generalTickets - tickets.generalTickets)}
                                         </label>
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700">1 =   ${event.priceThree} Usd</label>
-                                        
+                                        <label className="block mb-2 text-sm font-bold text-center text-gray-100">1 =   ${event.priceThree} Usd</label>
+
                                         <input onChange={(e) => handleChange(e)} className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="generalTickets" type="number" placeholder="" />
                                     </div>
                                 </div>
@@ -110,38 +122,38 @@ export default function FormBuy() {
 
                                 {/* LISTADO DE LA COMPRA */}
 
-                                <div className="mb-4 md:flex md:justify-between">
-                                    <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
-                                            tickets Premiun: 
+                                <div className="mb-4 flex justify-between">
+                                    <div className=" mr-2 mb-0">
+                                        <label className="block mb-2 text-lg font-extrabold  text-center text-yellow-400 text-opacity-60" >
+                                            Tickets Premiun:
                                         </label>
                                     </div>
                                     <div className="md:mr-2">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                        <label className="mr-2 lg:ml-4 flex justify-between items-center text-lg font-bold text-center text-gray-100" htmlFor="lastName">
                                             {tickets.premiumTickets}
                                         </label>
                                     </div>
                                     <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                        <label className="flex justify-between mb-2 text-lg  font-bold text-center text-yellow-400 text-opacity-60" htmlFor="lastName">
                                             ${Number(tickets.premiumTickets * event.priceOne)}
                                         </label>
                                     </div>
                                 </div>
                                 <hr className="mb-6 border-t" />
 
-                                <div className="mb-4 md:flex md:justify-between">
-                                    <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
-                                            tickets Box: 
+                                <div className="mb-4 flex justify-between items-center ">
+                                    <div className=" md:mr-2 md:mb-0 ">
+                                        <label className="block mb-2 text-lg font-extrabold text-center text-blue-400 text-opacity-60" >
+                                            Tickets Box:
                                         </label>
                                     </div>
-                                    <div className="md:ml-6">
-                                        <label className="block mb-2  text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                    <div className="ml-9 flex justify-between items-center ">
+                                        <label className=" text-lg font-bold text-center text-gray-100" htmlFor="lastName">
                                             {tickets.boxTickets}
                                         </label>
                                     </div>
                                     <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                        <label className="block  text-lg font-bold text-center text-blue-400 text-opacity-60" htmlFor="lastName">
                                             ${Number(tickets.boxTickets * event.priceTwo)}
                                         </label>
                                     </div>
@@ -149,19 +161,19 @@ export default function FormBuy() {
 
                                 <hr className="mb-6 border-t" />
 
-                                <div className="mb-4 md:flex md:justify-between ">
-                                    <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" >
-                                            tickets General: 
+                                <div className="mb-4 flex justify-between items-center ">
+                                    <div className=" md:mr-2 md:mb-0">
+                                        <label className="block mb-2 text-lg font-extrabold text-center text-green-400 text-opacity-60" >
+                                            Tickets General:
                                         </label>
                                     </div>
-                                    <div className="md:mr-2">
-                                        <label className="block mb-2  text-sm font-bold text-gray-700" htmlFor="lastName">
+                                    <div className=" flex justify-between items-center">
+                                        <label className="block ml-1  text-lg font-bold text-gray-100" htmlFor="lastName">
                                             {tickets.generalTickets}
                                         </label>
                                     </div>
                                     <div className="md:ml-2 content-center">
-                                        <label className="block mb-2 text-sm font-bold text-center text-gray-700" htmlFor="lastName">
+                                        <label className="block  text-lg font-bold text-center text-green-400 text-opacity-60" htmlFor="lastName">
                                             ${Number(tickets.generalTickets * event.priceThree)}
                                         </label>
                                     </div>
@@ -171,48 +183,40 @@ export default function FormBuy() {
 
                                 {/* Valor Compra */}
 
-                                <div className="mb-4 md:flex md:justify-between bg">
-                                <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-lg font-bold text-gray-800" >
-                                            Total Compra: 
+                                <div className="mb-4 flex justify-between bg">
+                                    <div className="mb-4 md:mr-2 md:mb-0">
+                                        <label className="block  text-lg font-bold text-gray-100" >
+                                            Total Compra:
                                         </label>
                                     </div>
-                                    <div className="md:mr-2">
-                                        <label className="block mb-2 text-lg font-bold text-gray-800" htmlFor="lastName">
-                                        {total}
+                                    <div className="ml-5 ">
+                                        <label className="block mb-2 text-lg font-bold text-gray-100" htmlFor="lastName">
+                                            {total}
                                         </label>
                                     </div>
                                     <div className="md:ml-2">
-                                        <label className="block mb-2 text-lg font-bold text-gray-800" htmlFor="lastName">
-                                        ${price}
+                                        <label className="block mb-2 text-lg font-bold text-gray-100" htmlFor="lastName">
+                                            ${price}
                                         </label>
                                     </div>
                                 </div>
                                 <hr className="mb-6 border-t" />
-                                
-                                {/* <div className="mb-4 md:flex md:justify-between">
-                                    <div className="mb-4 md:mr-2 md:mb-0">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="password">
-                                            Total Valor: 
-                                        </label>
-                                        <input onChange={(e) => handleChange(e)} value={user.password} className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border  rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="password" type="password" placeholder="******************" />
-                                        <p className="text-xs italic text-red-500">Please choose a password.</p> border-red-500 
-                                    </div>
-                                    <div className="md:ml-2">
-                                        <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="c_password">
-                                            
-                                        </label>
-                                        <input onChange={(e) => handleChange(e)} value={user.c_password} className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" name="c_password" type="password" placeholder="******************" />
-                                    </div>
-                                </div> */}
+
                                 <div className="mb-6 text-center">
-                                    <button  className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" type="submit">
+                                    <button className="w-full lg:w-80 px-4 py-2 font-bold text-gray-800 hover:text-white bg-green-400 rounded-2xl hover:bg-green-500 focus:outline-none focus:shadow-outline" type="submit"
+                                    disabled={ tickets.premiumTickets === 0 &&   tickets.boxTickets === 0  && tickets.boxTickets === 0 
+                                                        ? true : false}
+                                    >
                                         Pagar
                                     </button>
                                 </div>
+                                    { tickets.premiumTickets === 0 &&   tickets.boxTickets === 0  && tickets.boxTickets === 0 
+                                                        ? <p className='text-red-400 text-center'>Añade un Tikect</p> : null}
                                 <hr className="mb-6 border-t" />
-                                <div className="mb-6 text-center">
-                                    <button className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline" >
+                                <div className="bottom-10 text-center">
+                                    <button className="w-full lg:w-80 px-4 py-2 font-bold text-gray-800 bg-red-300 hover:text-white rounded-2xl hover:bg-red-400 focus:outline-none focus:shadow-outline"
+                                            onClick={()=> navigate(`/user/artist/${event.members[0].user.id}`)}
+                                    >
                                         Cancelar
                                     </button>
                                 </div>
@@ -221,6 +225,7 @@ export default function FormBuy() {
                     </div>
                 </div>
             </div>
+                        <Footer/>
         </div>
     )
 }

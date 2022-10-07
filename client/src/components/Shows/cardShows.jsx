@@ -13,10 +13,12 @@ export const CardShows = ({ artists }) => {
                 {artists && artists.length > 0 ? artists.map((ele, i) => {
                     return (
                             <div className="duration-200 hover:transform hover:scale-105 hover:shadow-white ">
-                        <div className=" w-auto rounded-lg  m-9 flex bg-green-300   flex-col items-center      rounde-md shadow-md  " data-aos='fade-down'
+                        <div className=" w-auto rounded-lg  m-9 flex bg-green-400   flex-col items-center      rounde-md shadow-md  " data-aos='fade-down'
                             data-aos-delay='300'>
                             <div className="w-[300px] h-[400px]  rounded-lg  ">
+                            <Link to={ rol === 'ADMIN'? `/admin/artists/${ele.id}` : rol === 'ARTIST'? `/artist/${ele.id}`: rol === 'USER' ? `/user/artist/${ele.id}` :`/artists/${ele.id}`}>
                                 <img src={ele.image} className=" bg-cover  object-cover object-top h-96 w-96 rounded-full p-3" alt="" data-aos='fade-up' data-aos-delay='400' />
+                            </Link>
                             </div>
                             <div className="flex flex-row   items-center  justify-center   w-full max-h-[160px] ">
                                 <p className="lg:text-3xl text-xl capitalize text-gray-800 m-2 font-bold">{ele.nickName}</p>

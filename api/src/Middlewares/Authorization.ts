@@ -56,9 +56,10 @@ const Authorization = {
         try {
             const headerToken = req.get('Authorization');
             if(!headerToken){
-                    res.status(400).json({succes: false, error: 'Token no valido'})
-                }
+                res.status(400).json({succes: false, error: 'Token no valido'})
+            }
             const token:any = headerToken?.replace("Bearer ", "");
+            console.log(token,'TOKEN!');
             try {
                 const decoded:any =  Jwt.verify(token, process.env.TOKEN_SECRET_USER! )
             console.log(decoded.user_id);
