@@ -6,7 +6,8 @@ export const userSlice = createSlice({
         profile:{},
         users:[],
         detailUser:{},
-        mike:[]
+        mike:[],
+        paymentSuccess:{}
     },
     reducers: {
         getProfile: (state, action) => {
@@ -18,6 +19,9 @@ export const userSlice = createSlice({
         getUsersId : (state, action) => {
             state.detailUser = action.payload
         },
+        getPaymentId : (state, action) => {
+            state.paymentSuccess = action.payload
+        },
         filterbyOrder: (state, action) =>{
             //aca hacen el orden del filtro:
             return{
@@ -27,6 +31,6 @@ export const userSlice = createSlice({
     }
 })
 
-export const {getUsers, getUsersId, getProfile} = userSlice.actions
+export const {getUsers, getUsersId, getProfile, getPaymentId} = userSlice.actions
 
 export default userSlice.reducer

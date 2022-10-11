@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { PrismaClient } from '@prisma/client';
 import { Response, Request, Express } from 'express';
 import Stripe from 'stripe';
 import sendMail from '../utils/nodeMailer';
-const prisma = new PrismaClient({ log: ['query', 'info'] });
 const stripe = Stripe(process.env.STRIPE_KEY)
-
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient({ log: ['query', 'info'] })
 
 
 const userController = {
@@ -96,7 +95,7 @@ const userController = {
             const metadata = await stripe.customers.create({
                 metadata: {
                     userId: req.user_id,
-                    eventId: tickets.id,
+                    eventId: tickets.eventId,
                     premium: tickets.premiumTickets,
                     box: tickets.boxTickets,
                     general: tickets.generalTickets,
@@ -149,7 +148,7 @@ const userController = {
         let data;
         try {
             session = Stripe.webhooks.constructEvent(req.body, sig, process.env.END_POINT_SECRET)
-            // console.log('eventttttttttt', event.data.object.metadata);
+            console.log('eventttttttttt', session.data.object.metadata);
         } catch (err) {
             console.log('error', err.message);
             res.status(400).send(`Webhook Error: ${err.message}`);
@@ -164,6 +163,7 @@ const userController = {
             console.log('itemssssssssss', data);
             const payment = await prisma.payment.create({
                 data:{
+                    
                     userId:buyEvent.userId,
                     eventId: buyEvent.eventId,
                     premium: Number(buyEvent.premium),
@@ -174,9 +174,12 @@ const userController = {
                     amount_total : data.amount_total 
                 }
             })
-            
-        }
 
+            
+            
+            console.log(payment, 'recibido');
+            // res.status(200).json({data:payment})
+        }
         res.send().end();
 
     },
@@ -189,6 +192,43 @@ const userController = {
 
         } catch (error) {
             console.log(error);
+        }
+    },
+    payments: async (req: Request, res: Response) =>{
+        try {
+            const user = await prisma.users.findUnique({
+                where:{ id:req.user_id},
+                select:{
+                    payment: {
+                        include:{
+                            event:true
+                        }
+                    }
+
+                    
+                }
+            })
+            res.status(200).json({data:user})
+        } catch (error) {
+            res.status(500).json({message:error})
+        }
+    },
+    succesPayment : async (req:Request, res:Response) => {
+        console.log(req.user_id);
+        try {
+            const payment = await prisma.payment.findFirst({
+                where:{
+                    eventId:req.params.id,
+                    userId:req.user_id
+                },
+                include:{
+                    event:true
+                }
+            })
+            res.status(200).json({data: payment})
+
+        } catch (error) {
+            res.status(500).json({message: error})
         }
     }
 

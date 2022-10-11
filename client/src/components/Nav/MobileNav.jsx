@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { nav } from '../../data'
+import SearchBar from '../NavBar/searchBar/SearchBar'
 
 
 export default function MobileNav() {
@@ -9,6 +10,8 @@ export default function MobileNav() {
     return (
         <div className='text-white bg-black w-full h-full opacity-90'>
             <div className='h-full flex flex-col justify-center items-center gap-y-8'>
+            <SearchBar/>
+
                     <Link to={rol === 'ADMIN' ? "/admin/artists" : rol === 'ARTIST' ? "/artist/artists" : rol === 'USER' ? "/user/artists" : "/artists"} className='link text-white text-2xl hover:text-green-400' >Artistas</Link>
                     {
                     rol ? (
@@ -36,7 +39,10 @@ export default function MobileNav() {
                                     Iniciar sesion
                                 </Link>
                 }
+
+
             </div>
+                {/* <SearchBar/> */}
         </div>
     )
 }

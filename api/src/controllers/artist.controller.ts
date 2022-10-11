@@ -53,16 +53,18 @@ const artistController = {
         }
     },
     name: async (req: Request, res: Response, _next: NextFunction) => {
+        const{name} = req.query 
+        console.log(name, 'nombree');
         try {
             const result = await prisma.users.findMany({
                 where: {
-                    userName: {
-                        equals: `${req.query.name}`,
+                    nickName: {
+                        contains: `${name}`
                     },
                 },
                 include: {
                     shows: {
-                        select: { show: true }
+                        select: { event: true }
                     }
                 }
             })
@@ -78,7 +80,7 @@ const artistController = {
             }
         })
         try {
-                const newShow = await prisma.show.create({
+                const newShow = await prisma.event.create({
                     data: {
                         nickName: req.body.nickName,
                         eventName: req.body.eventName,

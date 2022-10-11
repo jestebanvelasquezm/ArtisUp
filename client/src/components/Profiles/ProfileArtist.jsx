@@ -38,27 +38,27 @@ export default function ProfileArtist() {
                             data-aos-offset='300'
                             data-aos-delay='delay'>
                             <Link to={rol === 'ADMIN' ? `/admin/artists` : rol === 'ARTIST' ? `/artist/artists` : rol === 'USER' ? `/user/artists` : `/artists`} className="absolute flex items-center w-10 h-10 right-4 top-4 justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7  text-gray-600 z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </Link>
-                            <div className=" flex flex-col items-center lg:flex-row justify-center w-full lg:w-1/2">
+                            <div className=" flex flex-col items-center lg:flex-row justify-center w-full mt-10 lg:mt-0 lg:w-1/2">
                                 <div className="lg:w-full w-[300px]  mt-5 lg:mt-0 lg:h-96 " data-aos='fade-up' data-aos-offset='400'>
                                     <img src={profile.image} className="object-contain w-full h-full rounded-l-full rounded-3xl lg:rounded-full" alt="" />
                                 </div>
                             </div>
                             <div className="w-full lg:w-1/2 flex flex-col lg:flex-col  justify-between">
                                 <div className="flex flex-col items-center justify-center mb-10 my-10 w-full   ">
-                                    <p className="lg:text-8xl text-6xl text-center font-extrabold drop-shadow-lg  text-green-700 [text-shadow:_0_1px_0_rgb(0_0_0_/_60%)] capitalize ">{profile.nickName}</p>
+                                    <p className="lg:text-8xl text-6xl text-center font-extrabold drop-shadow-lg  text-green-800 [text-shadow:_0_1px_0_rgb(0_0_0_/_60%)] capitalize ">{profile.nickName}</p>
                                 </div>
                                 <div className="mb-5 w-full p-5 ">
-                                    <p className="text-1xl font-extrabold text-center text-zinc-100 capitalize ">Integrante(s)</p>
-                                    <p className="text-3xl font-light text-center text-zinc-100 capitalize">{profile.userName}  {profile.lastName} </p>
+                                    <p className="text-lg font-extrabold text-center text-green-700 capitalize ">Integrante(s)</p>
+                                    <p className="text-4xl font-light text-center  text-green-800  drop-shadow-lg [text-shadow:_0_1px_0_rgb(0_0_0_/_60%)] capitalize">{profile.userName}  {profile.lastName} </p>
                                 </div>
                                 <div className="mb-5 flex flex-col items-center justify-between">
                                     {/* <div className='flex flex-col justify-center items-center'> */}
-                                    <p className="text-xl font-extrabold text-center text-zinc-100 capitalize">Nacionalidad</p>
-                                    <p className="text-base font-light text-center text-zinc-300 capitalize">{profile.city} - {profile.country}</p>
+                                    <p className="text-lg font-extrabold text-center text-green-700 capitalize">Nacionalidad</p>
+                                    <p className="text-base font-light text-center text-green-800 capitalize">{profile.city} - {profile.country}</p>
                                     {/* </div> */}
 
                                 </div>
@@ -66,7 +66,10 @@ export default function ProfileArtist() {
                         </div>
                     </div>
                     <div className="flex justify-center items-center ">
-                        <Create />
+                        {/* <Create /> */}
+                        <Link to='/artist/create' className='btn py-8 px-10 mt-10 flex flex-col bg-transparent bg-opacity-80 shadow-2xl text-gray-200 border border-gray-100 hover:border-green-500 hover:bg-green-500 hover:text-white  lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                            Crear Evento
+                        </Link>
                     </div>
                     <div className="mb-10 my-10 lg:my-32 ">
                         <p className="text-6xl text-center font-extrabold text-zinc-200 capitalize sticky "> Eventos:</p>

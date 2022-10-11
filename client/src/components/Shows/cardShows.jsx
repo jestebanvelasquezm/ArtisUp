@@ -12,7 +12,7 @@ export const CardShows = ({ artists }) => {
             <div className="container  mx-auto px-2  flex flex-col justify-between   lg:flex lg:flex-row lg:justify-between lg:flex-wrap items-center    " style={{ zIndex: '0' }}>
                 {artists && artists.length > 0 ? artists.map((ele, i) => {
                     return (
-                            <div className="duration-200 hover:transform hover:scale-105 hover:shadow-white ">
+                            <div className="duration-200 hover:transform hover:scale-105 hover:shadow-white " key={i}>
                         <div className=" w-auto rounded-lg  m-9 flex bg-green-400   flex-col items-center      rounde-md shadow-md  " data-aos='fade-down'
                             data-aos-delay='300'>
                             <div className="w-[300px] h-[400px]  rounded-lg  ">

@@ -10,18 +10,16 @@ export default function Nav() {
 
     return (
         <nav>
-            <ul className='flex gap-x-10'>
+            <ul className='flex justify-center items-center gap-x-10'>
                 {nav.map((item, i) => {
                     return (
-                        <li key={i}>
-                            <Link to={rol === 'ADMIN' ? "/admin/artists" : rol === 'ARTIST' ? "/artist/artists" : rol === 'USER' ? "/user/artists" : "/artists"} className='hover:text-green-400 trasnsition text-gray-100'> {item.name}</Link>
+                        <li key={i} >
+                            <Link to={rol === 'ADMIN' ? "/admin/artists" : rol === 'ARTIST' ? "/artist/artists" : rol === 'USER' ? "/user/artists" : "/artists"} className='hover:text-green-400 text-xl  trasnsition text-gray-100'> {item.name}</Link>
                         </li>
                     )
                 })}
-                <div>
-                    <SearchBar />
-                </div>
                 
+                    <SearchBar />
             </ul>
         </nav>
     )
