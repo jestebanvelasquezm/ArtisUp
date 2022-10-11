@@ -1,7 +1,8 @@
 import axios from "axios";
 import { 
     getUsersId,
-    getProfile
+    getProfile,
+    getPaymentId
  } from "../ReducerSlices/UserSlice";
 
 
@@ -12,6 +13,19 @@ export const getUserProfile = () => async (dispatch) => {
             headers:{ Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`}
         });
         dispatch(getProfile(data.data));
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getUserPayment = () => async (dispatch) => {
+    try {
+        const id = JSON.parse(window.localStorage.getItem('cart'))
+        // console.log(id);
+        const { data } = await axios.get(`http://localhost:4000/user/payments/success/${id.eventId}`,{
+            headers:{ Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`}
+        });
+        dispatch(getPaymentId(data.data));
     } catch (error) {
         console.log(error);
     }

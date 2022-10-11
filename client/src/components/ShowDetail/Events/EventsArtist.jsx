@@ -13,10 +13,20 @@ export default function EventsArtist({ events }) {
             <div className=' w-full bg-opacity-40 bg-black  '   >
 
                 <div className=" w-full flex flex-row  flex-wrap ">
-                    {events? events.map((ele) => {
+                    {arrayVacio(events)?
+                    (
+                        <div className="flex flex-col w-full justify-center items-center my-10" data-aos='fade-rigth' data-aos-offset='300'>
+                                <p className="text-4xl text-green-400 text-center p-5 font-light">Este artista no tiene eventos disponibles</p>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-36 w-36 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                    )
+                    :
+                    events.map((ele, i) => {
 
                         return (
-                            <div key={ele.id} className="flex flex-row flex-wrap w-full lg:w-96  ">
+                            <div  className="flex flex-row flex-wrap w-full lg:w-96  " key={i}>
                                 <div className="flex flex-col items-center w-full h-5/6 overflow-auto m-9 bg-gray-100 rounded-xl shadow-md duration-300 hover:scale-105 hover:shadow-xl" data-aos='fade-up' data-aos-offset='300'>
                                     <div className="w-full h-80  bg-green-500">
                                         <img src={ele.event.imagesEvent} className="w-full h-full p-7 rounded-xl" alt="" />
@@ -100,16 +110,17 @@ export default function EventsArtist({ events }) {
                                 </div>
                             </div>
                         )
-                    })
-                        : (
-                            <div className="flex flex-col w-full justify-center items-center my-10" data-aos='fade-rigth' data-aos-offset='300'>
+                            })
+                    }
+                        {/* : ( */}
+                            {/* <div className="flex flex-col w-full justify-center items-center my-10" data-aos='fade-rigth' data-aos-offset='300'>
                                 <p className="text-4xl text-green-400 text-center p-5 font-light">Este artista no tiene eventos disponibles</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-36 w-36 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                            </div>
-                        )
-                    }
+                            </div> */}
+                        {/* ) */}
+                    {/* } */}
                 </div>
             </div>
 

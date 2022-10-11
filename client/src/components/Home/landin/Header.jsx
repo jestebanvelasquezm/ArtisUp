@@ -25,10 +25,10 @@ export default function Header() {
             <Link to={rol === 'ADMIN' ? "/admin/home" : rol === 'ARTIST' ? "/artist/home" : rol === 'USER' ? "/user/home" : "/"} data-aos='fade-down' data-aos-delay='600'>
                 <p className={`${isActive ? 'text-gray-50' : 'text-gray-200'} `}>Events App</p>
             </Link>
-            <div className='hidden lg:flex' data-aos='fade-down' data-aos-delay='800'>
+            <div className='hidden xs:flex justify-center items-center lg:flex' data-aos='fade-down' data-aos-delay='800'>
             {
                     rol ? (
-                            <Link to={rol === 'ADMIN' ? "/admin" : rol === 'ARTIST' ? "/artist" : rol === 'USER' ? "/user" : null} className='hover:text-green-400 px-4 trasnsition text-gray-100' data-aos='fade-down' data-aos-delay='600'> Profile</Link>
+                            <Link to={rol === 'ADMIN' ? "/admin" : rol === 'ARTIST' ? "/artist" : rol === 'USER' ? "/user" : null} className='hover:text-green-400 px-4 text-xl trasnsition text-gray-100' data-aos='fade-down' data-aos-delay='500'> Profile</Link>
                         
                     )
                         :
@@ -38,7 +38,7 @@ export default function Header() {
             </div>
             {
                 rol==='ADMIN'?
-                <Link to='/admin/logout' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                <Link to='/admin/logout' className='btn btn-sm btn-outline hidden  lg:flex' data-aos='fade-down' data-aos-delay='1000'>
                     Logout
                 </Link>
                 :rol==='ARTIST'?
@@ -46,7 +46,7 @@ export default function Header() {
                     Logout
                 </Link>
                 :rol==='USER'?
-                 <Link to='/user/logout' className='btn btn-sm btn-outline hidden lg:flex' data-aos='fade-down' data-aos-delay='1000'>
+                 <Link to='/user/logout' className='btn btn-sm btn-outline hidden  lg:flex' data-aos='fade-down' data-aos-delay='1000'>
                     Logout
                 </Link>
                 :

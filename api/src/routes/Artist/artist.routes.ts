@@ -9,7 +9,7 @@ import  Authorization  from '../../Middlewares/Authorization'
 // router.post('/signup' , signUp )
 // router.get('/artist/all' , [Authorization.Artist] , artistController.all )//todos los artistas
 router.get('/artist/all'  , artistController.all )//todos los artistas
-router.get('/artist',[Authorization.Artist]  , artistController.name )//proteger para el ruteo// por nombre
+router.get('/artist'  , artistController.name )//proteger para el ruteo// por nombre
 router.get('/artist/profile' , [Authorization.Artist] , artistController.profile )
 router.post('/artist/create' , [Authorization.Artist] , artistController.createEvent )
 

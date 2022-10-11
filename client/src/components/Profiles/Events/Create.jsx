@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import Modal from '../../Modal/Modal';
 import Swal from 'sweetalert2';
+import Form from './Form';
+import {ValidateEvent} from '../../../utils/ValidateEvent'
 
 export default function Create() {
     const [showModal, setShowModal] = useState(false);
@@ -16,22 +17,30 @@ export default function Create() {
         day:'',
         hour:'',
         finish:'',
-        premiumTickets:0,
-        boxTickets:0,
-        generalTickets: 0,
-        priceOne:0,
-        priceTwo:0,
-        priceThree:0,
-        capacity: 0,
+        premiumTickets:null,
+        boxTickets:null,
+        generalTickets: null,
+        priceOne:null,
+        priceTwo:null,
+        priceThree:null,
+        capacity: null,
         categories: ''
     })
 
+    const [errors, setErrors] = useState({
+        // eventName:'requerido'
+    })
 
     const handleChange = (e) => {
         setEvent({
             ...event,
             [e.target.name]: e.target.value
         })
+        let errorsResult = ValidateEvent({
+            ...event,
+            [e.target.name]: e.target.value
+        })
+        setErrors(errorsResult)
     }
 
     const uploadImage = async (e) => {
@@ -80,16 +89,17 @@ export default function Create() {
 
 
   return (
-    <div>
-        <Modal 
+    <div className=' '>
+
+    <Form 
             event={event}
+            errors={errors}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             showModal={showModal}
             setShowModal={setShowModal}
             uploadImage={uploadImage}
         />
-
     </div>
   )
 }

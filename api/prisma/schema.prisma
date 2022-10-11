@@ -85,6 +85,7 @@ model Category_Event {
 }
 
 model Payment {
+  id             String @id @default(uuid())
   premium        Int
   box            Int
   general        Int
@@ -96,7 +97,7 @@ model Payment {
   eventId        String
   event          Event  @relation(fields: [eventId], references: [id])
 
-  @@id([userId, eventId])
+  
 }
 
 model Favorites_User {
