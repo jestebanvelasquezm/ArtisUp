@@ -24,7 +24,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const app_1 = __importDefault(require("./app"));
 const category_controller_1 = __importDefault(require("./controllers/category.controller"));
-const PORT = 4000;
+const PORT = process.env.PORT;
 app_1.default.listen(PORT, () => {
     category_controller_1.default.createCategoriesDefault();
     console.log(`%s listening at ${PORT}`);

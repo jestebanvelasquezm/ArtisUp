@@ -7,8 +7,11 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
 const server = (0, express_1.default)();
+server.use('/webhook', express_1.default.raw({ type: "*/*" }));
+server.use("/webhook", body_parser_1.default.raw({ type: "*/*" }));
 server.use(express_1.default.json()); //transforma body a json
 //midlewares:
 server.use((_req, _resp, next) => {
