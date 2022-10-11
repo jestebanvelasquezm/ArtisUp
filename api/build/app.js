@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const index_routes_1 = __importDefault(require("./routes/index.routes"));
+const routes = require('./routes/index.routes');
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
@@ -25,5 +25,5 @@ const options = {
 };
 // Then pass these options to cors:
 server.use((0, cors_1.default)(options));
-server.use('/', index_routes_1.default);
+server.use('/', routes);
 exports.default = server;
