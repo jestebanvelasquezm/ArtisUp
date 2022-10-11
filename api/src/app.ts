@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-import routes from './routes/index.routes';
+const routes =  require('./routes/index.routes');
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 dotenv.config();
