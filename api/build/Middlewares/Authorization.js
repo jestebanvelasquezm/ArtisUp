@@ -12,74 +12,150 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Contractor = exports.Artist = exports.Admin = void 0;
+//@ts-nocheck
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient({ log: ['query',] });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-// interface IRequest extends Request { user_id: number }//crear propiedades al req
-const Admin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const headerToken = req.get("Authorization");
-        if (!headerToken) {
-            res.status(400).json({ succes: false, error: 'Token no valido' });
-        }
-        const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+const Authorization = {
+    Admin: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_ADMIN); // ! asegurar que va a llegar
-            console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
-            req.user_id = decoded.user_id;
-            console.log(req.user_id);
-            next();
+            const headerToken = req.get("Authorization");
+            if (!headerToken) {
+                res.status(400).json({ succes: false, error: 'Token no valido' });
+            }
+            const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+            try {
+                const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_ADMIN); // ! asegurar que va a llegar
+                console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
+                const user = yield prisma.users.findUnique({
+                    id: decoded.user_id
+                });
+                user.rol === 'ADMIN' ? req.user_id = decoded.user_id : res.status(400).json({ mesagge: 'No tienes acceso' });
+                next();
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).json({ mesagge: error });
+            }
         }
         catch (error) {
-            console.log(error);
-            res.status(400).send(error);
+            return res.status(400).json({ mesagge: error });
         }
-    }
-    catch (error) {
-        return error;
-    }
-});
-exports.Admin = Admin;
-const Artist = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const headerToken = req.get("Authorization");
-        if (!headerToken) {
-            res.status(400).json({ succes: false, error: 'Token no valido' });
-        }
-        console.log(headerToken);
-        const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+    }),
+    Artist: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_ARTIST); // ! asegurar que va a llegar
-            console.log(decoded);
-            req.user_id = decoded.id;
-            next();
+            const headerToken = req.get("Authorization");
+            if (!headerToken) {
+                res.status(400).json({ succes: false, error: 'Token no valido' });
+            }
+            const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+            try {
+                const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_ARTIST); // ! asegurar que va a llegar
+                console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
+                const user = yield prisma.users.findUnique({ where: { id: `${decoded.user_id}` } });
+                if (!user)
+                    return res.status(400).json({ succes: false, error: 'no hay usuario' });
+                user.rol === 'ARTIST' ? req.user_id = decoded.user_id : res.status(400).json({ mesagge: 'No tienes acceso' });
+                next();
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(400).json({ mesagge: error });
+            }
         }
         catch (error) {
-            console.log(error);
-            res.status(400).send(error);
+            return res.status(400).json({ mesagge: error });
         }
-    }
-    catch (error) {
-    }
-});
-exports.Artist = Artist;
-const Contractor = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const headerToken = req.get("Authorization");
-        if (!headerToken) {
-            res.status(400).json({ succes: false, error: 'Token no valido' });
-        }
-        const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+    }),
+    User: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_CONTRACTOR); //asegurar que va a llegar
-            // console.log(decoded);
-            req.user_id = decoded.id;
-            next();
+            const headerToken = req.get('Authorization');
+            if (!headerToken) {
+                res.status(400).json({ succes: false, error: 'Token no valido' });
+            }
+            const token = headerToken === null || headerToken === void 0 ? void 0 : headerToken.replace("Bearer ", "");
+            console.log(token, 'TOKEN!');
+            try {
+                const decoded = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET_USER);
+                console.log(decoded.user_id);
+                const user = yield prisma.users.findUnique({ where: { id: `${decoded.user_id}` } });
+                user.rol === 'USER' ? req.user_id = decoded.user_id : res.status(400).json({ mesagge: 'No tienes acceso' });
+                next();
+            }
+            catch (error) {
+                return res.status(400).json({ mesagge: error });
+            }
         }
         catch (error) {
-            res.status(400).send(error);
+            return res.status(400).json({ mesagge: error });
         }
-    }
-    catch (error) {
-    }
-});
-exports.Contractor = Contractor;
+    })
+};
+exports.default = Authorization;
+// export const Admin = async  (req:Request, res:Response, next:NextFunction): Promise<void> => {
+//     try {
+//         const headerToken = req.get("Authorization");
+//         if(!headerToken){
+//             res.status(400).json({succes: false, error: 'Token no valido'})
+//         }
+//         const token:any = headerToken?.replace("Bearer ", "");
+//         try {
+//             const decoded:any =  Jwt.verify(token, process.env.TOKEN_SECRET_ADMIN! )// ! asegurar que va a llegar
+//             console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
+//             const user = await prisma.users.findUnique({
+//                 id :decoded.user_id
+//             })
+//             user.rol === 'USER' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
+//             next()
+//         } catch (error) {
+//             console.log(error);
+//             return res.status(400).json({mesagge:error})
+//         }
+//     } catch (error) {
+//         return res.status(400).json({mesagge:error})
+//     }
+// }
+// export const Artist = async  (req:Request, res:Response, next:NextFunction): Promise<void> => {
+//     try {
+//         const headerToken = req.get("Authorization");
+//         if(!headerToken){
+//             res.status(400).json({succes: false, error: 'Token no valido'})
+//         }
+//         const token:any = headerToken?.replace("Bearer ", "");
+//         try {
+//             const decoded:any =  Jwt.verify(token, process.env.TOKEN_SECRET_ARTIST! )// ! asegurar que va a llegar
+//             console.log(decoded.user_id); // = {id: 8278372837bjhjdhsjd, iit}
+//             const user = await prisma.users.findUnique({
+//                 id :decoded.user_id
+//             })
+//             user.rol === 'ARTIST' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
+//             next()
+//         } catch (error) {
+//             console.log(error);
+//             return res.status(400).json({mesagge:error})
+//         }
+//     } catch (error) {
+//         return res.status(400).json({mesagge:error})
+//     }
+// }
+// export const Contractor = async  (req:Request, res:Response, next:NextFunction): Promise<void> => {
+//     try {
+//         const headerToken = req.get("Authorization");
+//         if(!headerToken){
+//             res.status(400).json({succes: false, error: 'Token no valido'})
+//         }
+//         const token = headerToken?.replace("Bearer ", "");
+//         try {
+//             const decoded = Jwt.verify(token!, process.env.TOKEN_SECRET_USER! )//asegurar que va a llegar
+//             const user = await prisma.users.findUnique({
+//                 id :decoded.user_id
+//             })
+//             user.rol === 'USER' ? req.user_id = decoded.user_id : res.status(400).json({mesagge:'No tienes acceso'})
+//             next()
+//         } catch (error) {
+//             return res.status(400).json({mesagge:error})
+//         }
+//     } catch (error) {
+//         return res.status(400).json({mesagge:error})
+//     }
+// }

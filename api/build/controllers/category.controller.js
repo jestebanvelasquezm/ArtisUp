@@ -9,22 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// @ts-nocheck
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient({ log: ['query', 'info'] });
 const categorys = [
     { "name": "poesía" },
-    { "name": "cuentos" },
-    { "name": "teatro" },
+    { "name": "cuenteria" },
+    { "name": "teatral" },
     { "name": "danza" },
+    { "name": "baile" },
     { "name": "escultura" },
     { "name": "música" },
     { "name": "pintura" },
     { "name": "fotografía" },
-    { "name": "baile " },
+    { "name": "baile" },
     { "name": "canto" },
     { "name": "stand-up" },
-    { "name": "mimo" },
-    { "name": "diversion infantil" }
+    { "name": "artes plasticas" },
+    { "name": "diversion infantil" },
+    { "name": "concierto" },
+    { "name": "musica en vivo" },
 ];
 const categoryController = {
     createCategoriesDefault: () => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,23 +46,58 @@ const categoryController = {
             }
         }
         catch (error) {
-            return error;
+            res.status(400).json({ message: error });
         }
-    }),
-    getCategories: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const categorys = yield prisma.category.findMany();
-        res.status(200).json({ data: categorys.sort() });
     }),
     createCategory: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { name } = req.body;
         try {
-            const newCategory = yield prisma.category.create({
-                data: {
-                    name: name,
-                    asignedBy: 'ADMIN'
+            const category = yield prisma.category.findMany({
+                where: {
+                    name: name
                 }
             });
-            res.status(200).json({ data: newCategory });
+            if (category) {
+                res.status(400).json({ succes: false, message: 'ya existe la categoria' });
+            }
+            else {
+                const newCategory = yield prisma.category.create({
+                    data: {
+                        name: name,
+                        asignedBy: 'ADMIN'
+                    }
+                });
+                res.status(200).json({ data: newCategory });
+            }
+        }
+        catch (error) {
+            res.status(400).json({ message: error });
+        }
+    }),
+    getCategories: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const categories = yield prisma.category.findMany();
+            res.status(200).json({ data: categories.sort() });
+        }
+        catch (error) {
+            res.status(400).json({ message: error });
+        }
+    }),
+    getCategoryId: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const category = yield prisma.category.findUnique({
+                where: {
+                    id: parseInt(id)
+                },
+                include: {
+                    event: {
+                        select: {
+                            show: true
+                        }
+                    }
+                }
+            });
+            res.status(200).json({ succes: true, data: category });
         }
         catch (error) {
             res.status(400).json({ message: error });

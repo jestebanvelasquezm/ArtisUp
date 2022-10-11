@@ -10,5 +10,6 @@ const category_controller_1 = __importDefault(require("../../controllers/categor
 //Get All Categories
 //http://localhost:4000/...
 router.get('/categories', category_controller_1.default.getCategories);
-router.get('/categories/create', category_controller_1.default.createCategory);
+router.get('/category/:id', category_controller_1.default.getCategoryId);
+router.post('/categories/create', category_controller_1.default.createCategory);
 exports.default = router;
