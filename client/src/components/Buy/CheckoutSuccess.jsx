@@ -23,25 +23,8 @@ export default function CheckoutSuccess() {
     return (
         <>
             <Header />
-            {/* <section className='bg-black min-h-[900px] py-20'>
-        <div className="container bg-yellow-500 mx-auto min-h-[900px] flex justify-center items-center">
-            <div className=' bg-pink-500 flex-col lg:gap-x-[30px] w-full h-full gap-y-8 lg:gap-y-0 lg:flex-row items-center justify-center text-center lg:text-center '>
-                <div className='flex-1 bg-orange-500'>
-                    <p>holaaaaa </p>
-                </div>
-                <div className='flex-1' data-aos='fade-up' data-aos-delay='800' >
-                    <img className='rounded-xl' src={image} alt="" />
-                </div>
-            </div>
-
-        </div>
-    </section> */}
-
-
-
-
             <main className="w-full  bg-black ">
-                <section className="relative block" style={{ height: "500px" }}>
+                <section className="relative   flex justify-center items-center  " style={{ height: "500px" }}>
                     <div
                         className="absolute top-0 w-full h-full bg-center bg-cover opacity-50 bg-black"
                         style={{
@@ -54,28 +37,13 @@ export default function CheckoutSuccess() {
                             className="w-full h-full absolute opacity-50 bg-black"
                         ></span>
                     </div>
-                    <div className='flex flex-col   bg-green-300  justify-center items-center top-32  relative pointer-events-none '>
-                        <h2 className='text-zinc-700 text-4xl text-center lg:text-7xl m-5'> Compra Realizada</h2>
-                    {/* <h1 className='text-green-100 text-center capitalize text-3xl'>{payment.event?.eventName}</h1> */}
+                    <div className=' bg-zinc-700 rounded-xl   m-10  absolute pointer-events-none '>
+                        <h2 className='text-zinc-200 text-4xl font-extrabold text-center lg:text-7xl m-5'> Compra Realizada</h2>
                     </div>
-                    <div
-                        className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-                        style={{ height: "70px" }}
-                    >
-                        <svg
-                            className="absolute bottom-0 overflow-hidden"
-                            xmlns="http://www.w3.org/2000/svg"
-                            preserveAspectRatio="none"
-                            version="1.1"
-                            viewBox="0 0 2560 100"
-                            x="0"
-                            y="0"
-                        >
-                        </svg>
-                    </div>
+                    
                 </section>
                 {payment ?
-                    <section className="relative py-16 bg-black">
+                    <section className="relative mt-10 py-16 bg-black">
                         <div className="container mx-auto px-4 h-full">
                             <div className="relative  flex flex-col min-w-0 break-words  w-full mb-6 shadow-xl rounded-lg -mt-64">
                                 <Link to={rol === 'ADMIN' ? `/admin` : rol === 'ARTIST' ? `/artist` : rol === 'USER' ? `/user` : `/artists`} className="absolute flex items-center w-10 h-10 right-4 top-4 justify-center">
@@ -153,17 +121,6 @@ export default function CheckoutSuccess() {
                     :
                     null
                 }
-                {/* <section className='bg-black min-h-[900px] py-20'>
-                    <div className="container bg-yellow-500 mx-auto min-h-[900px] flex justify-center items-center">
-                        <div className=' bg-pink-500 flex-col lg:gap-x-[30px] w-full h-full gap-y-8 lg:gap-y-0 lg:flex-row items-center justify-center text-center lg:text-center '>
-                            <div className='flex-1 bg-orange-500'>
-                            </div>
-                            <div className='flex-1' data-aos='fade-up' data-aos-delay='800' >
-                                <img className='rounded-xl' src={image} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </section> */}
             </main>
             <Footer />
         </>

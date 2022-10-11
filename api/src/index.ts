@@ -22,7 +22,7 @@
 import server from './app';
 import categoryController from './controllers/category.controller';
 
-const PORT = 4000;
+const PORT = process.env.PORT ;
 server.listen(PORT, () => {
     categoryController.createCategoriesDefault();
     console.log(`%s listening at ${PORT}`);
