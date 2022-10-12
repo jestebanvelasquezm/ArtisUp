@@ -78,7 +78,7 @@ export default function SignUp() {
         // setErrors({userName: 'requerido'})
         console.log(user);
         try {
-            const User = await axios('http://localhost:4000/signup', {
+            const User = await axios('https://artisup-production.up.railway.app/signup', {
                 method: 'POST',
                 data: user
             })
