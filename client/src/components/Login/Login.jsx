@@ -42,7 +42,7 @@ export default function Login() {
     const loginSubmit = async (e) =>{
         e.preventDefault()
         try {
-            const response = await axios('http://localhost:4000/signin',{
+            const response = await axios('https://artisup-production.up.railway.app/signin',{
                 method:'POST',
                 data:input
             })
