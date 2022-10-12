@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-import routes from './routes/indexRoutes';
+// import routes from './routes/indexRoutes';
+import router from './routes/indexRoutes';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 dotenv.config();
@@ -8,7 +9,6 @@ dotenv.config();
 const server:Application = express();
 server.use('/webhook', express.raw({type: "*/*"}));
 
-console.log(routes);
 
 server.use("/webhook", bodyParser.raw({ type: "*/*" }));
 server.use(express.json())//transforma body a json
@@ -32,6 +32,6 @@ const options: cors.CorsOptions = {
 // Then pass these options to cors:
 server.use(cors(options));
 
-server.use('/', routes);
+server.use('/', router);
 
 export default server;
