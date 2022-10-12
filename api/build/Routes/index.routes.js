@@ -20,4 +20,5 @@ router.use('/', user_routes_1.default);
 router.use('/', event_routes_1.default);
 router.use('/', category_routes_1.default);
 router.use('/', buy_routes_1.default);
-exports.default = router;
+// exports.default = router;
+module.exports = {router};
