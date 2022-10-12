@@ -1,12 +1,14 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-const routes =  require('./routes/index.routes');
+import routes from './routes/index.routes';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser'
 dotenv.config();
 
 const server:Application = express();
 server.use('/webhook', express.raw({type: "*/*"}));
+
+console.log(routes);
 
 server.use("/webhook", bodyParser.raw({ type: "*/*" }));
 server.use(express.json())//transforma body a json

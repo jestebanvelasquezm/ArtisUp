@@ -22,7 +22,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const app_1 = __importDefault(require("./app"));
+const app_1 = __importDefault(require("./app.js"));
 const category_controller_1 = __importDefault(require("./controllers/category.controller"));
 const PORT = process.env.PORT;
 app_1.default.listen(PORT, () => {
