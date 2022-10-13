@@ -6,7 +6,7 @@ import  Authorization  from '../../Middlewares/Authorization'
 
 
 //http://localhost:4000/...
-// router.post('/signup' , signUp )
+router.get('/si' , artistController.create )
 // router.get('/artist/all' , [Authorization.Artist] , artistController.all )//todos los artistas
 router.get('/artist/all'  , artistController.all )//todos los artistas
 router.get('/artist'  , artistController.name )//proteger para el ruteo// por nombre

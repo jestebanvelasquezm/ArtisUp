@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { getAllArtists } from "../../reduxToolkit/Actions/artistAction";
 import { CardShows } from "./cardShows";
 import { useSelector, useDispatch } from 'react-redux';
-import Nav from "../Nav/Nav";
 import Header from "../Home/landin/Header";
 import Footer from "../Footer/Footer";
 
