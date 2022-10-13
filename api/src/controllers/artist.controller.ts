@@ -8,7 +8,12 @@ const prisma = new PrismaClient({ log: ['query', ] });
 
 const artistController = {
     create: async () => {
-        resizeBy.status(200).json({data:'hola desde railway'})
+        try {
+            // postgresql://postgres:GpSWcmcCrghZdujbIMJ4@containers-us-west-53.railway.app:5933/railway
+            res.status(200).json({data:'hola desde railway'})
+        } catch (error) {
+            res.status(500).json({data :error})
+        }
     },
     all: async (_req:Request, res:Response, _next:NextFunction) => {
         try {
