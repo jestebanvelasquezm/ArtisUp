@@ -8,7 +8,7 @@ const prisma = new PrismaClient({ log: ['query', ] });
 
 const artistController = {
     create: async () => {
-
+        resizeBy.status(200).json({data:'hola desde railway'})
     },
     all: async (_req:Request, res:Response, _next:NextFunction) => {
         try {
