@@ -9,7 +9,7 @@ import {
 
 export const getUserProfile = () => async (dispatch) => {
     try {
-        const { data } = await axios.get(`http://localhost:4000/users/profile`,{
+        const { data } = await axios.get(`https://artisup-production.up.railway.app/users/profile`,{
             headers:{ Authorization :`Bearer ${JSON.parse(window.localStorage.getItem('auth-token'))}`}
         });
         dispatch(getProfile(data.data));
