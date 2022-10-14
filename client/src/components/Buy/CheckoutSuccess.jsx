@@ -76,7 +76,7 @@ export default function CheckoutSuccess() {
                                             </div>
                                             <div className="text-xl leading-normal mt-0 mb-2 text-zinc-900   capitalize">
                                                 <i className="fas fa-map-marker-alt mr-2 text-lg text-justify text-gray-500 "></i>{" "}
-                                                Hora: {payment.event.hour} 
+                                                Hora: {payment.event?.hour} 
                                             </div>
                                             <h3 className="text-xl   leading-normal mb-2 text-zinc-900  capitalize">
                                                 {payment.event?.place}
