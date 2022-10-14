@@ -128,8 +128,8 @@ const userController = {
                 line_items: [line_items],
                 mode: 'payment',
                 metadata: metadata.metadata,
-                success_url: 'http://localhost:3000/user/checkout-success',
-                cancel_url: `http://localhost:3000/user/event/tickets/${tickets.id}`,
+                success_url: 'https://events-app-eta.vercel.app/user/checkout-success',
+                cancel_url: `https://events-app-eta.vercel.app/user/event/tickets/${tickets.id}`,
             });
 
             // console.log(session);
