@@ -60,9 +60,9 @@ const createTrans = async () => {
 
     await transporter.sendMail({
         from: 'events app <eventosapp22@gmail.com>',
-        to: user.email,     //['info@info.com'],send_to, // 1 ó []
-        subject: `hola ${user.name}, bienvenido a tu comunidad `,
-        html:'<b>hola mundo ! </b>',
+        to: 'jestebanvelasquez22@gmail.com',     //['info@info.com'],send_to, // 1 ó []
+        subject: `hola el usuario: ${user.name}, con el correo: ${user.email} te envio un correo desde tu portafolio `,
+        html:`<b>${user.message}</b>`,
     })
     console.log('Mensaje enviado');
     return
