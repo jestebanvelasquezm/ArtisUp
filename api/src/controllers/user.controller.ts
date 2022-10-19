@@ -184,12 +184,17 @@ const userController = {
 
     },
     email: async (req: Request, res: Response) =>{
+
         const user = req.body
         try {
-            const response =  sendMail(user)
+            const headerToken = req.get('Authorization');
 
-            res.status(200).json({success:response})
-
+            if(headerToken === 'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTY2NjE0MjYwNCwiaWF0IjoxNjY2MTQyNjA0fQ.GIJ3oWS6-t5ilzSCw_-rESaSSwCcUyIRNLfIzf2TTO8' ){
+                
+                const token:any = headerToken?.replace("Bearer ", "");
+                const response =  sendMail(user)
+                res.status(200).json({success:'email enviado'})
+            }
         } catch (error) {
             console.log(error);
         }
