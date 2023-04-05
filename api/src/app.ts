@@ -25,7 +25,10 @@ server.use((_req: any, _resp: any, next: () => void) => {
 // const allowedOrigins = ['*'];
 
 const options: cors.CorsOptions = {
-  origin: 'https://artisup.up.railway.app'
+  origin: 'https://events-app-eta.vercel.app',
+  methods: ['GET', 'POST', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+
   
 };
 
