@@ -33,7 +33,7 @@ const options: cors.CorsOptions = {
 };
 
 // Then pass these options to cors:
-server.use(cors(options));
+server.use(cors());
 
 // server.use(( res: any, ) => {
 //   res.header('Access-Control-Allow-Origin', 'https://events-app-eta.vercel.app'); // update to match the domain you will make the request from
