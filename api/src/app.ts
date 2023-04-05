@@ -24,13 +24,13 @@ server.use((_req: any, _resp: any, next: () => void) => {
 // If you have more origins you would like to add, you can add them to the array below.
 // const allowedOrigins = ['*'];
 
-const options: cors.CorsOptions = {
-  origin: 'https://events-app-eta.vercel.app',
-  methods: ['GET', 'POST', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+//const options: cors.CorsOptions = {
+  //origin: 'https://events-app-eta.vercel.app',
+ // methods: ['GET', 'POST', 'PATCH'],
+  //allowedHeaders: ['Content-Type', 'Authorization']
 
   
-};
+//};
 
 // Then pass these options to cors:
 server.use(cors());
