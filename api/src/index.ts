@@ -20,10 +20,10 @@
 
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 import server from './app';
-// import categoryController from './controllers/category.controller';
+import categoryController from './controllers/category.controller';
 
 const PORT = process.env.PORT ;
 server.listen(PORT, () => {
-    // categoryController.createCategoriesDefault();
+    categoryController.createCategoriesDefault();
     console.log(`%s listening at ${PORT}`);
 })
