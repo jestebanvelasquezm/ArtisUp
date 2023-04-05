@@ -16,9 +16,9 @@ server.use(express.json())//transforma body a json
 
 
 //midlewares:
-server.use((_req: any, _resp: any, next: () => void) => {
-  next();
-}, cors({ maxAge: 84600 }));
+//server.use((_req: any, _resp: any, next: () => void) => {
+  //next();
+//}, cors({ maxAge: 84600 }));
 
 // Add a list of allowed origins.
 // If you have more origins you would like to add, you can add them to the array below.
